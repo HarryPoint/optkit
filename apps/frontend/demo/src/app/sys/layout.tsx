@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { ProLayout } from "@ant-design/pro-components";
 import { GetProps } from "antd";
+import { useRouter } from "next/navigation";
 import { InitProConfig } from "optkit-toolbox";
 
 type Routes = NonNullable<
@@ -24,14 +25,8 @@ const routes: Routes = [
     icon: <UserOutlined />,
     children: [
       {
-        path: "/sys/core-components",
-        name: "core-components",
-        children: [
-          {
-            path: "/sys/core-components/AsyncButton",
-            name: "AsyncButton",
-          },
-        ],
+        path: "/sys/core-components/AsyncButton",
+        name: "AsyncButton",
       },
     ],
   },
@@ -48,8 +43,9 @@ const routes: Routes = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   return (
-    <InitProConfig>
+    <InitProConfig router={router}>
       <ProLayout
         route={{
           children: routes,

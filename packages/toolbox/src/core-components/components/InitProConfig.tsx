@@ -1,12 +1,16 @@
 import { ProConfigProvider } from "@ant-design/pro-components";
 import valueTypeMap from "../../pro-components";
+import { ToolboxContext } from "src/context/toolboxContext";
 
-export const InitProConfig: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const InitProConfig: React.FC<{
+  children: React.ReactNode;
+  router: any;
+}> = ({ children, router }) => {
   return (
-    <ProConfigProvider valueTypeMap={valueTypeMap}>
-      {children}
-    </ProConfigProvider>
+    <ToolboxContext.Provider value={{ router }}>
+      <ProConfigProvider valueTypeMap={valueTypeMap}>
+        {children}
+      </ProConfigProvider>
+    </ToolboxContext.Provider>
   );
 };

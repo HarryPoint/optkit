@@ -1,11 +1,11 @@
 "use client";
 
-import { ProCusDate } from "optkit-toolbox";
+import { PageWrapper, ProCusDate } from "optkit-toolbox";
 
 export default function Page() {
   return (
-    <div>
+    <PageWrapper>
       <ProCusDate />
-    </div>
+    </PageWrapper>
   );
 }
