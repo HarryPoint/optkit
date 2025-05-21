@@ -1,4 +1,6 @@
 packages:
-  - "packages/*"
-  - "apps/frontend/*"
-  - "apps/backend/*"
+  - packages/*
+  - apps/frontend/*
+  - apps/backend/*
+onlyBuiltDependencies:
+  - unrs-resolver
