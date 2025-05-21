@@ -1,7 +1,11 @@
-import { Input } from "@optkit/toolbox";
+import { ProCusDate, InitProConfig } from "@optkit/toolbox";
 
 function App() {
-  return <Input></Input>;
+  return (
+    <InitProConfig>
+      <ProCusDate></ProCusDate>
+    </InitProConfig>
+  );
 }
 
 export default App;
