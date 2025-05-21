@@ -10,10 +10,10 @@ importers:
 
   apps/frontend/demo:
     dependencies:
-      '@monorepo-template/cli':
+      '@optkit/cli':
         specifier: workspace:*
         version: link:../../../packages/cli
-      '@monorepo-template/ui':
+      '@optkit/ui':
         specifier: workspace:*
         version: link:../../../packages/ui
       react:

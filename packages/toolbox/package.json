@@ -1,10 +1,10 @@
 {
-  "name": "@optkit/cli",
+  "name": "@optkit/toolbox",
   "version": "1.0.0",
   "description": "",
-  "bin": {
-    "template-cli": "./dist/index.js"
-  },
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup"
@@ -13,8 +13,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.15.19",
     "tsup": "^6.0.0",
     "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   }
 }

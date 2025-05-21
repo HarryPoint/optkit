@@ -13,8 +13,8 @@
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@monorepo-template/ui": "workspace:*",
-    "@monorepo-template/cli": "workspace:*"
+    "@optkit/ui": "workspace:*",
+    "@optkit/cli": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
