@@ -1,10 +1,14 @@
 {
-  "name": "@optkit/toolbox",
+  "name": "optkit-toolbox",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup"
