@@ -13,6 +13,7 @@
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "@optkit/toolbox": "workspace:*",
     "@optkit/ui": "workspace:*",
     "@optkit/cli": "workspace:*"
   },

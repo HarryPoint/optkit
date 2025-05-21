@@ -1,5 +1,4 @@
-import "./App.css";
-import { Input } from "@optkit/ui";
+import { Input } from "@optkit/toolbox";
 
 function App() {
   return <Input></Input>;
