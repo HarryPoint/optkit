@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.8.7",
-    "@optkit/cli": "workspace:*",
-    "@optkit/toolbox": "workspace:*",
-    "@optkit/ui": "workspace:*",
+    "optkit-cli": "workspace:*",
+    "optkit-toolbox": "workspace:*",
+    "optkit-ui": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

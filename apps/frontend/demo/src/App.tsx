@@ -1,4 +1,4 @@
-import { InitProConfig, BaseTable } from "@optkit/toolbox";
+import { InitProConfig, BaseTable } from "optkit-toolbox";
 
 function App() {
   return (

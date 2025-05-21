@@ -1,5 +1,5 @@
 {
-  "name": "@optkit/cli",
+  "name": "optkit-cli",
   "version": "1.0.0",
   "description": "",
   "bin": {
