@@ -1,26 +1,27 @@
-import { DictionaryCategory, useDictionary } from "../../hooks/useDictionary";
+import { useDictionary } from "../../hooks/useDictionary";
 import { Checkbox, GetProps, Spin } from "antd";
 import React, { useMemo } from "react";
+import { IDictionaryData } from "src/context/toolboxContext";
 
 const CheckboxGroup = Checkbox.Group;
 
 type CheckboxGroupProps = GetProps<typeof CheckboxGroup<string>>;
 
-export type DictionaryCheckboxGroupProps = Omit<
+export type DictionaryCheckboxGroupProps<T extends IDictionaryData> = Omit<
   CheckboxGroupProps,
   "options"
 > & {
-  category: DictionaryCategory;
+  category: keyof T;
 };
 
-export const DictionaryCheckboxGroup: React.FC<DictionaryCheckboxGroupProps> = (
-  props
-) => {
+export function DictionaryCheckboxGroup<T extends IDictionaryData>(
+  props: DictionaryCheckboxGroupProps<T>
+) {
   const { category, ...reset } = props;
   const { loading, categoryGroup } = useDictionary();
   const options = useMemo<CheckboxGroupProps["options"]>(() => {
-    if (!categoryGroup?.[category]) return [];
-    return categoryGroup[category].map(
+    if (!categoryGroup?.[category as any]) return [];
+    return categoryGroup[category as any].map(
       (item) =>
         ({
           value: item.value,
@@ -33,4 +34,4 @@ export const DictionaryCheckboxGroup: React.FC<DictionaryCheckboxGroupProps> = (
       <CheckboxGroup options={options} {...reset} />
     </Spin>
   );
-};
+}

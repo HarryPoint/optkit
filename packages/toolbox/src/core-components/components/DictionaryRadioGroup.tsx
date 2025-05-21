@@ -1,27 +1,28 @@
-import { DictionaryCategory, useDictionary } from "../../hooks/useDictionary";
+import { useDictionary } from "../../hooks/useDictionary";
 import { GetProps, Radio, Spin } from "antd";
 import React, { useMemo } from "react";
+import { IDictionaryData } from "src/context/toolboxContext";
 
 const RadioGroup = Radio.Group;
 
 type RadioGroupProps = GetProps<typeof RadioGroup>;
 
-export type DictionaryRadioGroupProps = Omit<
+export type DictionaryRadioGroupProps<T extends IDictionaryData> = Omit<
   RadioGroupProps,
   "options" | "onChange"
 > & {
-  category: DictionaryCategory;
+  category: keyof T;
   onChange?: (value: string) => void;
 };
 
-export const DictionaryRadioGroup: React.FC<DictionaryRadioGroupProps> = (
-  props
-) => {
+export function DictionaryRadioGroup<T extends IDictionaryData>(
+  props: DictionaryRadioGroupProps<T>
+) {
   const { category, onChange, ...reset } = props;
   const { loading, categoryGroup } = useDictionary();
   const options = useMemo<RadioGroupProps["options"]>(() => {
-    if (!categoryGroup?.[category]) return [];
-    return categoryGroup[category].map(
+    if (!categoryGroup?.[category as any]) return [];
+    return categoryGroup[category as any].map(
       (item) =>
         ({
           value: item.value,
@@ -38,4 +39,4 @@ export const DictionaryRadioGroup: React.FC<DictionaryRadioGroupProps> = (
       />
     </Spin>
   );
-};
+}

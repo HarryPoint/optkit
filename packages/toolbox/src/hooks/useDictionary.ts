@@ -1,14 +1,10 @@
 import { useRequest } from "ahooks";
-import { GetApiReturn } from "../utils/help";
 import { IDictionaryData, useToolboxContext } from "src/context/toolboxContext";
 
 const GET = async (): Promise<IDictionaryData> => {
   console.log("getDictionary not config");
   return {};
 };
-
-export type ResData = GetApiReturn<typeof GET>;
-export type DictionaryCategory = keyof ResData;
 
 export const useDictionary = () => {
   const { getDictionary } = useToolboxContext();
