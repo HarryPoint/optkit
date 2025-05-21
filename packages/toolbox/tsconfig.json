@@ -6,7 +6,7 @@
     "baseUrl": ".",
     "declaration": true,
     "allowSyntheticDefaultImports": true,
-    "lib": ["dom", "es2015"]
+    "lib": ["dom", "ESNext"]
   },
   "include": ["src"]
 }

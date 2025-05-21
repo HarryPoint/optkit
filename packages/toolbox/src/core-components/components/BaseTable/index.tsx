@@ -2,7 +2,7 @@ import {
   createPlaceholder,
   CusProComponentsType,
   transformMap,
-} from "@/common/pro_components";
+} from "../../../pro-components";
 import {
   ActionType,
   ParamsType,
@@ -39,10 +39,10 @@ export type BaseTableProps<T extends Record<string, any> = any> = GetProps<
 const BaseTable = <
   DataType extends Record<string, any>,
   Params extends ParamsType = ParamsType,
-  ValueType = CusProComponentsType,
+  ValueType = CusProComponentsType
 >(
   props: ProTableProps<DataType, Params, ValueType> & {
-    cacheKey: TableCacheKey;
+    cacheKey: TableCacheKey | string;
     searchColumns?: ProTableProps<DataType, Params, ValueType>["columns"];
     actionRef?: React.Ref<BaseTableActionType | undefined>;
     formRef?: React.Ref<BaseTableSearchForm | undefined>;
@@ -56,21 +56,29 @@ const BaseTable = <
     formRef: originFormRef,
   } = props;
 
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
 
-  const formRef = useRef<ProFormInstance>();
+  const formRef = useRef<ProFormInstance>(null);
 
-  useImperativeHandle(originActionRef, () => {
-    return {
-      ...(actionRef.current as any),
-    };
-  }, []);
+  useImperativeHandle(
+    originActionRef,
+    () => {
+      return {
+        ...(actionRef.current as any),
+      };
+    },
+    []
+  );
 
-  useImperativeHandle(originFormRef, () => {
-    return {
-      ...(formRef.current as any),
-    };
-  }, []);
+  useImperativeHandle(
+    originFormRef,
+    () => {
+      return {
+        ...(formRef.current as any),
+      };
+    },
+    []
+  );
 
   const [hiddenColumns] = useLocalStorageState<string[]>(
     hiddenColumnsCacheKey(cacheKey),
@@ -92,7 +100,9 @@ const BaseTable = <
     return originTableColumns
       .map((col) => {
         const key = (col.key ??
-          dataIndexToKey((col.dataIndex as string) ?? col.title)) as string;
+          dataIndexToKey(
+            (col.dataIndex as string) ?? (col.title as string)
+          )) as string;
         return {
           hideInSearch: true,
           key,

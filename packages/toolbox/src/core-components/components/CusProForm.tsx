@@ -1,6 +1,6 @@
 import { ProForm } from "@ant-design/pro-components";
 import { GetProps } from "antd";
-import { formDateFormatter } from "../utils/help";
+import { formDateFormatter } from "../../utils/help";
 
 type IProFormProps<T = Record<string, any>> = GetProps<typeof ProForm<T>>;
 

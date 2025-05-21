@@ -4,8 +4,7 @@ import {
   useDragIndexContext,
 } from "../context/DragIndexContext";
 import { useSortable } from "@dnd-kit/sortable";
-import { useDevice } from "@/common/hooks/useDevice";
-import { useDragEnableContext } from "@/common/components/BaseTable/context/DragEnableContext";
+import { useDragEnableContext } from "../context/DragEnableContext";
 
 interface HeaderCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
   id: string;
@@ -14,7 +13,7 @@ interface HeaderCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 export const TableHeaderCell: React.FC<HeaderCellProps> = (props) => {
   const dragEnable = useDragEnableContext();
   const dragState = useDragIndexContext();
-  const { isMobile } = useDevice();
+  const { isMobile } = { isMobile: false };
   const { attributes, listeners, setNodeRef, isDragging, setActivatorNodeRef } =
     useSortable({
       id: props.id,
