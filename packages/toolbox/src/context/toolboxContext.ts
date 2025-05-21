@@ -1,10 +1,13 @@
 import { createContext, useContext } from "react";
 
-export type DictionaryData = Record<string, { label: string; value: string }[]>;
+export type IDictionaryData = Record<
+  string,
+  { label: string; value: string }[]
+>;
 
 export interface IToolboxContext {
   router: any;
-  getDictionary: () => Promise<DictionaryData>;
+  getDictionary: () => Promise<IDictionaryData>;
 }
 
 export const ToolboxContext = createContext<IToolboxContext | null>(null);

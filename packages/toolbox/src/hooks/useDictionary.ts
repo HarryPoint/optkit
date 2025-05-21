@@ -1,8 +1,8 @@
 import { useRequest } from "ahooks";
 import { GetApiReturn } from "../utils/help";
-import { DictionaryData, useToolboxContext } from "src/context/toolboxContext";
+import { IDictionaryData, useToolboxContext } from "src/context/toolboxContext";
 
-const GET = async (): Promise<DictionaryData> => {
+const GET = async (): Promise<IDictionaryData> => {
   console.log("getDictionary not config");
   return {};
 };

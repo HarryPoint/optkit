@@ -1,21 +1,24 @@
-import { DictionaryCategory, useDictionary } from "../../hooks/useDictionary";
+import { useDictionary } from "../../hooks/useDictionary";
 import { GetProps, Select } from "antd";
 import React, { useMemo } from "react";
+import { IDictionaryData } from "src/context/toolboxContext";
 
 type SelectProps = GetProps<typeof Select<string>>;
 
-export type DictionarySelectProps = Omit<
+export type DictionarySelectProps<T extends IDictionaryData> = Omit<
   SelectProps,
   "options" | "filterOption"
 > & {
-  category: DictionaryCategory;
+  category: keyof T;
   filterOption?: (option: { label: string; value: string }) => boolean;
   renderMode?: "edit" | "read";
 };
 
 const defaultFilterOptionLogic = () => true;
 
-export const DictionarySelect: React.FC<DictionarySelectProps> = (props) => {
+export function DictionarySelect<T extends IDictionaryData>(
+  props: DictionarySelectProps<T>
+) {
   const {
     category,
     renderMode = "edit",
@@ -25,7 +28,7 @@ export const DictionarySelect: React.FC<DictionarySelectProps> = (props) => {
   } = props;
   const { loading, categoryGroup } = useDictionary();
   const options = useMemo<SelectProps["options"]>(() => {
-    const baseData = categoryGroup?.[category] || [];
+    const baseData = categoryGroup?.[category as any] || [];
     return baseData?.filter(filterOption).map((item) => ({
       value: item.value,
       label: item.label,
@@ -47,4 +50,4 @@ export const DictionarySelect: React.FC<DictionarySelectProps> = (props) => {
       {...reset}
     />
   );
-};
+}
