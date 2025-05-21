@@ -1,7 +1,4 @@
-import {
-  DictionaryCategory,
-  useDictionary,
-} from "@/common/hooks/useDictionary";
+import { DictionaryCategory, useDictionary } from "../../hooks/useDictionary";
 import { GetProps, Tag } from "antd";
 import React, { useMemo } from "react";
 

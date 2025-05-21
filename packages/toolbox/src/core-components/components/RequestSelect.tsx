@@ -2,7 +2,6 @@ import { useRequest, useSessionStorageState } from "ahooks";
 import { GetProps, Select, Spin } from "antd";
 import { unionBy } from "lodash";
 import { useCallback, useMemo, useState } from "react";
-import { useEntity } from "../hooks/useEntity";
 
 type SelectProps = GetProps<typeof Select<string>>;
 
@@ -67,7 +66,7 @@ export function RequestSelect<T = any>(props: RequestSelectProps<T>) {
     },
     [disabledOption]
   );
-  const { entity } = useEntity();
+  const { entity } = { entity: "lumens" };
 
   const [cacheOptions = [], setCacheOptions] = useSessionStorageState<
     DataItem<T>[]

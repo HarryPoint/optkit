@@ -2,7 +2,9 @@ import { useRequest } from "ahooks";
 import { useMemo } from "react";
 import { GetApiReturn } from "../utils/help";
 
-const GET = async () => {
+type DictionaryData = Record<string, { label: string; value: string }[]>;
+
+const GET = async (): Promise<{ data: DictionaryData }> => {
   return {
     data: {},
   };

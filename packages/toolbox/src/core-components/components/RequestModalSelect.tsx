@@ -5,7 +5,7 @@ import { createStyles } from "antd-style";
 import clsx from "clsx";
 import { uniqBy } from "lodash";
 import React, { useContext, useMemo, useState } from "react";
-import { ContentProps, withModal } from "../hoc/withModal";
+import { ContentProps, withModal } from "../../hoc/withModal";
 import BaseTable, { BaseTableProps } from "./BaseTable";
 import { TableCacheKey } from "./BaseTable/constant";
 
@@ -48,7 +48,7 @@ const ModalContent: React.FC<
       ({
         exist_id: value?.join(","),
         ...originParams,
-      }) as any,
+      } as any),
     [originParams, value]
   );
 

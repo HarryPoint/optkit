@@ -2,61 +2,55 @@ import {
   ProDemoFieldRenderConfig,
   ProDemoFieldTransformCreator,
   ProDemoFieldValueType,
+  ProDemoField,
 } from "./components/DemoFiled";
 import {
   ProDictionarySelectRenderConfig,
   ProDictionarySelectTransformCreator,
   ProDictionarySelectValueType,
+  ProDictionarySelect,
 } from "./components/ProDictionarySelect";
 import {
   ProDictionaryRadioGroupRenderConfig,
   ProDictionaryRadioGroupTransformCreator,
   ProDictionaryRadioGroupValueType,
+  ProDictionaryRadioGroup,
 } from "./components/ProDictionaryRadioGroup";
 import {
   ProDictionaryCheckboxGroupRenderConfig,
   ProDictionaryCheckboxGroupTransformCreator,
   ProDictionaryCheckboxGroupValueType,
+  ProDictionaryCheckboxGroup,
 } from "./components/ProDictionaryCheckboxGroup";
-import {
-  ProUploadDraggerRenderConfig,
-  ProUploadDraggerTransformCreator,
-  ProUploadDraggerValueType,
-} from "./components/ProUploadDragger";
-import {
-  ProUploadNormalRenderConfig,
-  ProUploadNormalTransformCreator,
-  ProUploadNormalValueType,
-} from "./components/ProUploadNormal";
 import {
   ProSearchRenderConfig,
   ProSearchTransformCreator,
   ProSearchValueType,
+  ProSearch,
 } from "./components/ProSearch";
-import {
-  ProPhoneRenderConfig,
-  ProPhoneTransformCreator,
-  ProPhoneValueType,
-} from "./components/ProPhone";
 import {
   ProMoneyRenderConfig,
   ProMoneyTransformCreator,
   ProMoneyValueType,
+  ProMoney,
 } from "./components/ProMoney";
 import {
   ProCusDateRenderConfig,
   ProCusDateTransformCreator,
   ProCusDateValueType,
+  ProCusDate,
 } from "./components/ProCusDate";
 import {
   ProCusDateTimeRenderConfig,
   ProCusDateTimeTransformCreator,
   ProCusDateTimeValueType,
+  ProCusDateTime,
 } from "./components/ProCusDateTime";
 import {
   ProCusRadioGroupRenderConfig,
   ProCusRadioGroupTransformCreator,
   ProCusRadioGroupValueType,
+  ProCusRadioGroup,
 } from "./components/ProCusRadioGroup";
 import {
   ProColumns,
@@ -72,10 +66,7 @@ export type CusProComponentsPureType =
   | typeof ProDictionarySelectValueType
   | typeof ProDictionaryRadioGroupValueType
   | typeof ProDictionaryCheckboxGroupValueType
-  | typeof ProUploadDraggerValueType
-  | typeof ProUploadNormalValueType
   | typeof ProSearchValueType
-  | typeof ProPhoneValueType
   | typeof ProMoneyValueType
   | typeof ProCusDateValueType
   | typeof ProCusDateTimeValueType
@@ -97,10 +88,7 @@ const placeholderMap: Partial<Record<CusProComponentsType, string | string[]>> =
     [ProDictionarySelectValueType]: "Please Select",
     [ProDictionaryRadioGroupValueType]: "Please Select",
     [ProDictionaryCheckboxGroupValueType]: "Please Select",
-    [ProUploadDraggerValueType]: "Please Select",
-    [ProUploadNormalValueType]: "Please Select",
     [ProSearchValueType]: "Please Enter",
-    [ProPhoneValueType]: "Please Enter",
     [ProMoneyValueType]: "Please Enter",
     [ProCusDateValueType]: "Please Select",
     [ProCusDateTimeValueType]: "Please Select",
@@ -129,10 +117,7 @@ export const transformMap: Partial<
   [ProDictionaryRadioGroupValueType]: ProDictionaryRadioGroupTransformCreator,
   [ProDictionaryCheckboxGroupValueType]:
     ProDictionaryCheckboxGroupTransformCreator,
-  [ProUploadDraggerValueType]: ProUploadDraggerTransformCreator,
-  [ProUploadNormalValueType]: ProUploadNormalTransformCreator,
   [ProSearchValueType]: ProSearchTransformCreator,
-  [ProPhoneValueType]: ProPhoneTransformCreator,
   [ProMoneyValueType]: ProMoneyTransformCreator,
   [ProCusDateValueType]: ProCusDateTransformCreator,
   [ProCusDateTimeValueType]: ProCusDateTimeTransformCreator,
@@ -147,14 +132,23 @@ export const valueTypeMap: Record<
   [ProDictionarySelectValueType]: ProDictionarySelectRenderConfig,
   [ProDictionaryRadioGroupValueType]: ProDictionaryRadioGroupRenderConfig,
   [ProDictionaryCheckboxGroupValueType]: ProDictionaryCheckboxGroupRenderConfig,
-  [ProUploadDraggerValueType]: ProUploadDraggerRenderConfig,
-  [ProUploadNormalValueType]: ProUploadNormalRenderConfig,
   [ProSearchValueType]: ProSearchRenderConfig,
-  [ProPhoneValueType]: ProPhoneRenderConfig,
   [ProMoneyValueType]: ProMoneyRenderConfig,
   [ProCusDateValueType]: ProCusDateRenderConfig,
   [ProCusDateTimeValueType]: ProCusDateTimeRenderConfig,
   [ProCusRadioGroupValueType]: ProCusRadioGroupRenderConfig,
+};
+
+export {
+  ProDemoField,
+  ProDictionarySelect,
+  ProDictionaryRadioGroup,
+  ProDictionaryCheckboxGroup,
+  ProSearch,
+  ProMoney,
+  ProCusDate,
+  ProCusDateTime,
+  ProCusRadioGroup,
 };
 
 export default valueTypeMap;

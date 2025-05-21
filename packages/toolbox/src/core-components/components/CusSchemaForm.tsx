@@ -1,4 +1,4 @@
-import { CusProComponentsType } from "@/common/pro_components";
+import { CusProComponentsType } from "../../pro-components";
 import { BetaSchemaForm } from "@ant-design/pro-components";
 import { GetProps } from "antd";
 
