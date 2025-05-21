@@ -1,26 +1,26 @@
 import { useRequest } from "ahooks";
-import { useMemo } from "react";
 import { GetApiReturn } from "../utils/help";
+import { DictionaryData, useToolboxContext } from "src/context/toolboxContext";
 
-type DictionaryData = Record<string, { label: string; value: string }[]>;
-
-const GET = async (): Promise<{ data: DictionaryData }> => {
-  return {
-    data: {},
-  };
+const GET = async (): Promise<DictionaryData> => {
+  console.log("getDictionary not config");
+  return {};
 };
 
-export type ResData = GetApiReturn<typeof GET>["data"];
+export type ResData = GetApiReturn<typeof GET>;
 export type DictionaryCategory = keyof ResData;
 
 export const useDictionary = () => {
-  const { loading, data } = useRequest(GET, {
-    cacheKey: "dictionary",
-    staleTime: 1000 * 60 * 60 * 24,
-  });
-  const categoryGroup = useMemo(() => {
-    return data?.data;
-  }, [data]);
+  const { getDictionary } = useToolboxContext();
+  const { loading, data: categoryGroup } = useRequest(
+    () => {
+      return getDictionary?.() ?? GET();
+    },
+    {
+      cacheKey: "dictionary",
+      staleTime: 1000 * 60 * 60 * 24,
+    }
+  );
 
-  return { loading, data, categoryGroup };
+  return { loading, categoryGroup };
 };

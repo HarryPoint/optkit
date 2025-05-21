@@ -1,5 +1,5 @@
 export { AsyncButton } from "./components/AsyncButton";
-export { InitProConfig } from "./components/InitProConfig";
+export { ToolboxInitConfig } from "./components/ToolboxInitConfig";
 export { RequestSelect } from "./components/RequestSelect";
 export { RequestModalSelect } from "./components/RequestModalSelect";
 export { SchemaSectionForm } from "./components/SchemaSectionForm";

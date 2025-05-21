@@ -9,7 +9,7 @@ import { ProLayout } from "@ant-design/pro-components";
 import { GetProps } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { InitProConfig } from "optkit-toolbox";
+import { ToolboxInitConfig } from "optkit-toolbox";
 
 type Routes = NonNullable<
   NonNullable<GetProps<typeof ProLayout>["route"]>["children"]
@@ -29,6 +29,10 @@ const routes: Routes = [
         path: "/sys/core-components/AsyncButton",
         name: "AsyncButton",
       },
+      {
+        path: "/sys/core-components/DictionarySelect",
+        name: "DictionarySelect",
+      },
     ],
   },
   {
@@ -46,7 +50,26 @@ const routes: Routes = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   return (
-    <InitProConfig router={router}>
+    <ToolboxInitConfig
+      value={{
+        router,
+        async getDictionary() {
+          console.log("getDictionary");
+          return {
+            demo: [
+              {
+                label: "ds",
+                value: "ds",
+              },
+              {
+                label: "ds2",
+                value: "ds2",
+              },
+            ],
+          };
+        },
+      }}
+    >
       <ProLayout
         contentStyle={{
           padding: 0,
@@ -76,6 +99,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         {children}
       </ProLayout>
-    </InitProConfig>
+    </ToolboxInitConfig>
   );
 }
