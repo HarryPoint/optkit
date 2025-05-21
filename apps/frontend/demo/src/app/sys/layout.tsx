@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { ProLayout } from "@ant-design/pro-components";
 import { GetProps } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { InitProConfig } from "optkit-toolbox";
 
@@ -47,8 +48,30 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <InitProConfig router={router}>
       <ProLayout
+        contentStyle={{
+          padding: 0,
+        }}
+        token={{
+          bgLayout: "#F3F4F5",
+          pageContainer: {
+            // paddingInlinePageContainerContent: 20,
+            // paddingBlockPageContainerContent: 20,
+          },
+          header: {
+            heightLayoutHeader: 66,
+            colorBgHeader: "#fff",
+          },
+          sider: {
+            colorMenuBackground: "#fff",
+          },
+        }}
+        title="PHV Admin Portal"
+        layout="mix"
         route={{
           children: routes,
+        }}
+        menuItemRender={(props, defaultDom) => {
+          return <Link href={props.path as any}>{defaultDom}</Link>;
         }}
       >
         {children}
