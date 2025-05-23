@@ -5,7 +5,7 @@ import { IDictionaryData } from "src/context/toolboxContext";
 
 type SelectProps = GetProps<typeof Select<string>>;
 
-export type DictionarySelectProps<T extends IDictionaryData> = Omit<
+export type DictionarySelectProps<T extends IDictionaryData = any> = Omit<
   SelectProps,
   "options" | "filterOption"
 > & {
@@ -16,7 +16,7 @@ export type DictionarySelectProps<T extends IDictionaryData> = Omit<
 
 const defaultFilterOptionLogic = () => true;
 
-export function DictionarySelect<T extends IDictionaryData>(
+export function DictionarySelect<T extends IDictionaryData = any>(
   props: DictionarySelectProps<T>
 ) {
   const {

@@ -7,14 +7,12 @@ const CheckboxGroup = Checkbox.Group;
 
 type CheckboxGroupProps = GetProps<typeof CheckboxGroup<string>>;
 
-export type DictionaryCheckboxGroupProps<T extends IDictionaryData> = Omit<
-  CheckboxGroupProps,
-  "options"
-> & {
-  category: keyof T;
-};
+export type DictionaryCheckboxGroupProps<T extends IDictionaryData = any> =
+  Omit<CheckboxGroupProps, "options"> & {
+    category: keyof T;
+  };
 
-export function DictionaryCheckboxGroup<T extends IDictionaryData>(
+export function DictionaryCheckboxGroup<T extends IDictionaryData = any>(
   props: DictionaryCheckboxGroupProps<T>
 ) {
   const { category, ...reset } = props;

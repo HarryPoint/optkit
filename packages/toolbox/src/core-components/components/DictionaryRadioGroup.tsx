@@ -7,7 +7,7 @@ const RadioGroup = Radio.Group;
 
 type RadioGroupProps = GetProps<typeof RadioGroup>;
 
-export type DictionaryRadioGroupProps<T extends IDictionaryData> = Omit<
+export type DictionaryRadioGroupProps<T extends IDictionaryData = any> = Omit<
   RadioGroupProps,
   "options" | "onChange"
 > & {
@@ -15,7 +15,7 @@ export type DictionaryRadioGroupProps<T extends IDictionaryData> = Omit<
   onChange?: (value: string) => void;
 };
 
-export function DictionaryRadioGroup<T extends IDictionaryData>(
+export function DictionaryRadioGroup<T extends IDictionaryData = any>(
   props: DictionaryRadioGroupProps<T>
 ) {
   const { category, onChange, ...reset } = props;
