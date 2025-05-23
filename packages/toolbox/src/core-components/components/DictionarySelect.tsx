@@ -36,7 +36,8 @@ export function DictionarySelect<T extends IDictionaryData = any>(
     }));
   }, [categoryGroup, category, filterOption]);
   if (renderMode === "read") {
-    return options?.find((item) => item.value === value)?.label;
+    return options?.find((item) => item.value === value)
+      ?.label as React.ReactElement;
   }
   return (
     <Select
