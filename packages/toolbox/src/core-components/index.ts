@@ -23,3 +23,4 @@ export { default as BaseTable } from "./components/BaseTable";
 export { AsyncSwitch } from "./components/AsyncSwitch";
 export { AutoIndexCard, AutoIndexCardRest } from "./components/AutoIndexCard";
 export { PageWrapper } from "./components/PageWrapper";
+export { DisabledFormItemProvider } from "./components/DisabledFormItemProvider";

@@ -1,6 +1,6 @@
 {
   "name": "optkit-toolbox",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
@@ -24,7 +24,7 @@
     "@ant-design/icons": "^6.0.0",
     "@ant-design/pro-components": "^2.8.7",
     "@types/lodash": "^4.17.17",
-    "@types/react": "^19.1.4",
+    "@types/react": "^18.3.1",
     "ahooks": "^3.8.5",
     "antd": "^5.25.2",
     "antd-style": "^3.7.1",

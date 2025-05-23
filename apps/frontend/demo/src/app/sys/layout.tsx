@@ -33,6 +33,10 @@ const routes: Routes = [
         path: "/sys/core-components/DictionarySelect",
         name: "DictionarySelect",
       },
+      {
+        path: "/sys/core-components/DisabledFormItemProvider",
+        name: "DisabledFormItemProvider",
+      },
     ],
   },
   {
