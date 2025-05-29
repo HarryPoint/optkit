@@ -33,7 +33,7 @@ export type RequestSelectProps<T = any> = Omit<
     data: DataItem[];
     success: boolean;
   }>;
-  popupRender: (
+  popupRender?: (
     menu: React.ReactElement,
     arg: { searchLoading: boolean }
   ) => React.ReactElement;
