@@ -1,7 +1,6 @@
 export { AsyncButton } from "./components/AsyncButton";
 export { ToolboxInitConfig } from "./components/ToolboxInitConfig";
 export { RequestSelect } from "./components/RequestSelect";
-// export { RequestModalSelect } from "./components/RequestModalSelect";
 export { SectionSchemaForm } from "./components/SectionSchemaForm";
 export { DictionaryTag } from "./components/DictionaryTag";
 export { CusSchemaForm } from "./components/CusSchemaForm";
@@ -16,11 +15,10 @@ export { SearchInput } from "./components/SearchInput";
 export { PreviewImage } from "./components/PreviewImage";
 export { PreviewPdf } from "./components/PreviewPdf";
 export { MoneyInput } from "./components/MoneyInput";
-// export { CusProDescriptions } from "./components/CusProDescriptions"; // 未实现
+export { CusProDescriptions } from "./components/CusProDescriptions";
 export { CusProForm } from "./components/CusProForm";
 export { CusProTable } from "./components/CusProTable";
 export { default as BaseTable } from "./components/BaseTable";
 export { AsyncSwitch } from "./components/AsyncSwitch";
-// export { AutoIndexCard, AutoIndexCardRest } from "./components/AutoIndexCard";
 export { PageWrapper } from "./components/PageWrapper";
 export { DisabledFormItemProvider } from "./components/DisabledFormItemProvider";
