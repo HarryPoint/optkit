@@ -1,10 +1,11 @@
-import { ProForm } from "@ant-design/pro-components";
+import { GridContext, ProForm } from "@ant-design/pro-components";
 import { GetProps } from "antd";
 import { formDateFormatter } from "../../utils/help";
 
 type IProFormProps<T = Record<string, any>> = GetProps<typeof ProForm<T>>;
 
 export function CusProForm<T>(props: IProFormProps<T>) {
+  const { grid, rowProps, colProps, children, ...reset } = props;
   return (
     <ProForm<T>
       scrollToFirstError={{
@@ -13,11 +14,21 @@ export function CusProForm<T>(props: IProFormProps<T>) {
         scrollMode: "always",
         focus: true,
       }}
-      colProps={{
-        span: 12,
-      }}
       dateFormatter={formDateFormatter}
-      {...props}
-    ></ProForm>
+      grid={grid}
+      colProps={colProps}
+      rowProps={rowProps}
+      {...reset}
+    >
+      <GridContext.Provider
+        value={{
+          grid,
+          rowProps,
+          colProps,
+        }}
+      >
+        {children}
+      </GridContext.Provider>
+    </ProForm>
   );
 }
