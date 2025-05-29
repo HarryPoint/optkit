@@ -6,7 +6,7 @@ import { CusProForm, PageWrapper, SectionSchemaForm } from "optkit-toolbox";
 export default function Page() {
   return (
     <PageWrapper>
-      <CusProForm colProps={{ span: 8 }} rowProps={{ gutter: [80, 0] }}>
+      <CusProForm colProps={{ span: 8 }} rowProps={{ gutter: [30, 0] }}>
         <SectionSchemaForm
           columns={[
             {
