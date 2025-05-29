@@ -2,7 +2,7 @@ export { AsyncButton } from "./components/AsyncButton";
 export { ToolboxInitConfig } from "./components/ToolboxInitConfig";
 export { RequestSelect } from "./components/RequestSelect";
 // export { RequestModalSelect } from "./components/RequestModalSelect";
-export { SchemaSectionForm } from "./components/SchemaSectionForm";
+export { SectionSchemaForm } from "./components/SectionSchemaForm";
 export { DictionaryTag } from "./components/DictionaryTag";
 export { CusSchemaForm } from "./components/CusSchemaForm";
 export { PreviewFile } from "./components/PreviewFile";

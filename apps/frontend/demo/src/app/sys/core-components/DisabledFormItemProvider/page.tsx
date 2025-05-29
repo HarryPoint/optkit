@@ -4,7 +4,7 @@ import {
   CusProForm,
   DisabledFormItemProvider,
   PageWrapper,
-  SchemaSectionForm,
+  SectionSchemaForm,
 } from "optkit-toolbox";
 
 export default function Page() {
@@ -12,7 +12,7 @@ export default function Page() {
     <PageWrapper>
       <CusProForm>
         <DisabledFormItemProvider disabled={true}>
-          <SchemaSectionForm
+          <SectionSchemaForm
             columns={[
               {
                 title: "sdf",
