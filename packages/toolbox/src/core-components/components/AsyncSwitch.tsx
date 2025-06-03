@@ -5,7 +5,6 @@ type SwitchProps = GetProps<typeof Switch>;
 export const AsyncSwitch: React.FC<SwitchProps> = ({ onClick, ...reset }) => {
   const [loading, setLoading] = useState(false);
   const handleClick = async (checked: boolean, e: any) => {
-    console.log("checked: ", checked);
     // 阻止冒泡
     e.stopPropagation();
     setLoading(true);

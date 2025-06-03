@@ -10,7 +10,7 @@ export const withModal = <
   F = ContentProps,
   A = React.FC<T>,
   B = React.FC<F>,
-  C = ModalProps,
+  C = ModalProps
 >(
   Cta: A,
   Content: B,
@@ -30,7 +30,6 @@ export const withModal = <
       <>
         <span
           onClick={() => {
-            console.log("onClick");
             if (disabled) {
               return;
             }

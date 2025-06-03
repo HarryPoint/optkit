@@ -1,28 +1,4 @@
 import {
-  ProDemoFieldRenderConfig,
-  ProDemoFieldTransformCreator,
-  ProDemoFieldValueType,
-  ProDemoField,
-} from "./components/DemoFiled";
-import {
-  ProDictionarySelectRenderConfig,
-  ProDictionarySelectTransformCreator,
-  ProDictionarySelectValueType,
-  ProDictionarySelect,
-} from "./components/ProDictionarySelect";
-import {
-  ProDictionaryRadioGroupRenderConfig,
-  ProDictionaryRadioGroupTransformCreator,
-  ProDictionaryRadioGroupValueType,
-  ProDictionaryRadioGroup,
-} from "./components/ProDictionaryRadioGroup";
-import {
-  ProDictionaryCheckboxGroupRenderConfig,
-  ProDictionaryCheckboxGroupTransformCreator,
-  ProDictionaryCheckboxGroupValueType,
-  ProDictionaryCheckboxGroup,
-} from "./components/ProDictionaryCheckboxGroup";
-import {
   ProSearchRenderConfig,
   ProSearchTransformCreator,
   ProSearchValueType,
@@ -46,12 +22,7 @@ import {
   ProCusDateTimeValueType,
   ProCusDateTime,
 } from "./components/ProCusDateTime";
-import {
-  ProCusRadioGroupRenderConfig,
-  ProCusRadioGroupTransformCreator,
-  ProCusRadioGroupValueType,
-  ProCusRadioGroup,
-} from "./components/ProCusRadioGroup";
+
 import {
   ProColumns,
   ProFieldValueType,
@@ -62,15 +33,10 @@ import { SearchTransformKeyFn } from "@ant-design/pro-components";
 import { isArray } from "lodash";
 
 export type CusProComponentsPureType =
-  | typeof ProDemoFieldValueType
-  | typeof ProDictionarySelectValueType
-  | typeof ProDictionaryRadioGroupValueType
-  | typeof ProDictionaryCheckboxGroupValueType
   | typeof ProSearchValueType
   | typeof ProMoneyValueType
   | typeof ProCusDateValueType
-  | typeof ProCusDateTimeValueType
-  | typeof ProCusRadioGroupValueType;
+  | typeof ProCusDateTimeValueType;
 
 export type CusProComponentsType = CusProComponentsPureType | ProFieldValueType;
 
@@ -84,15 +50,10 @@ const placeholderMap: Partial<Record<CusProComponentsType, string | string[]>> =
     text: "Please Enter",
     dateRange: ["Start Date", "End Date"],
     select: "Please Select",
-    [ProDemoFieldValueType]: "Please Enter",
-    [ProDictionarySelectValueType]: "Please Select",
-    [ProDictionaryRadioGroupValueType]: "Please Select",
-    [ProDictionaryCheckboxGroupValueType]: "Please Select",
     [ProSearchValueType]: "Please Enter",
     [ProMoneyValueType]: "Please Enter",
     [ProCusDateValueType]: "Please Select",
     [ProCusDateTimeValueType]: "Please Select",
-    [ProCusRadioGroupValueType]: "Please Select",
   };
 
 export const createPlaceholder = (
@@ -112,43 +73,22 @@ export const createPlaceholder = (
 export const transformMap: Partial<
   Record<CusProComponentsType, (col: ProColumns) => SearchTransformKeyFn>
 > = {
-  [ProDemoFieldValueType]: ProDemoFieldTransformCreator,
-  [ProDictionarySelectValueType]: ProDictionarySelectTransformCreator,
-  [ProDictionaryRadioGroupValueType]: ProDictionaryRadioGroupTransformCreator,
-  [ProDictionaryCheckboxGroupValueType]:
-    ProDictionaryCheckboxGroupTransformCreator,
   [ProSearchValueType]: ProSearchTransformCreator,
   [ProMoneyValueType]: ProMoneyTransformCreator,
   [ProCusDateValueType]: ProCusDateTransformCreator,
   [ProCusDateTimeValueType]: ProCusDateTimeTransformCreator,
-  [ProCusRadioGroupValueType]: ProCusRadioGroupTransformCreator,
 };
 
 export const valueTypeMap: Record<
   CusProComponentsPureType,
   ProRenderFieldPropsType
 > = {
-  [ProDemoFieldValueType]: ProDemoFieldRenderConfig,
-  [ProDictionarySelectValueType]: ProDictionarySelectRenderConfig,
-  [ProDictionaryRadioGroupValueType]: ProDictionaryRadioGroupRenderConfig,
-  [ProDictionaryCheckboxGroupValueType]: ProDictionaryCheckboxGroupRenderConfig,
   [ProSearchValueType]: ProSearchRenderConfig,
   [ProMoneyValueType]: ProMoneyRenderConfig,
   [ProCusDateValueType]: ProCusDateRenderConfig,
   [ProCusDateTimeValueType]: ProCusDateTimeRenderConfig,
-  [ProCusRadioGroupValueType]: ProCusRadioGroupRenderConfig,
 };
 
-export {
-  ProDemoField,
-  ProDictionarySelect,
-  ProDictionaryRadioGroup,
-  ProDictionaryCheckboxGroup,
-  ProSearch,
-  ProMoney,
-  ProCusDate,
-  ProCusDateTime,
-  ProCusRadioGroup,
-};
+export { ProSearch, ProMoney, ProCusDate, ProCusDateTime };
 
 export default valueTypeMap;
