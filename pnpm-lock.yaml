@@ -19,9 +19,18 @@ importers:
       '@ant-design/pro-components':
         specifier: ^2.8.7
         version: 2.8.7(antd@5.25.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(rc-field-form@2.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@types/lodash':
+        specifier: ^4.17.17
+        version: 4.17.17
+      ahooks:
+        specifier: ^3.8.5
+        version: 3.8.5(react@18.3.1)
       antd:
         specifier: ^5.25.2
         version: 5.25.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       next:
         specifier: 14.2.29
         version: 14.2.29(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

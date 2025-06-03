@@ -1,6 +1,7 @@
 "use client";
 
-import { PageWrapper, ProCusDate } from "optkit-toolbox";
+import { PageWrapper } from "@/common/components/PageWrapper";
+import { ProCusDate } from "optkit-toolbox";
 
 export default function Page() {
   return (

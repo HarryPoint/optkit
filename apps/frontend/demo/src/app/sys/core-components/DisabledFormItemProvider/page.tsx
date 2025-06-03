@@ -1,9 +1,9 @@
 "use client";
 
+import { PageWrapper } from "@/common/components/PageWrapper";
 import {
   CusProForm,
   DisabledFormItemProvider,
-  PageWrapper,
   SectionSchemaForm,
 } from "optkit-toolbox";
 

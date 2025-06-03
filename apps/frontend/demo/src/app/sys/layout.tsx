@@ -8,8 +8,6 @@ import {
 import { ProLayout } from "@ant-design/pro-components";
 import { GetProps } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ToolboxInitConfig } from "optkit-toolbox";
 
 type Routes = NonNullable<
   NonNullable<GetProps<typeof ProLayout>["route"]>["children"]
@@ -56,57 +54,35 @@ const routes: Routes = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
   return (
-    <ToolboxInitConfig
-      value={{
-        router,
-        async getDictionary() {
-          console.log("getDictionary");
-          return {
-            demo: [
-              {
-                label: "ds",
-                value: "ds",
-              },
-              {
-                label: "ds2",
-                value: "ds2",
-              },
-            ],
-          };
+    <ProLayout
+      contentStyle={{
+        padding: 0,
+      }}
+      token={{
+        bgLayout: "#F3F4F5",
+        pageContainer: {
+          // paddingInlinePageContainerContent: 20,
+          // paddingBlockPageContainerContent: 20,
+        },
+        header: {
+          heightLayoutHeader: 66,
+          colorBgHeader: "#fff",
+        },
+        sider: {
+          colorMenuBackground: "#fff",
         },
       }}
+      title="PHV Admin Portal"
+      layout="mix"
+      route={{
+        children: routes,
+      }}
+      menuItemRender={(props, defaultDom) => {
+        return <Link href={props.path as any}>{defaultDom}</Link>;
+      }}
     >
-      <ProLayout
-        contentStyle={{
-          padding: 0,
-        }}
-        token={{
-          bgLayout: "#F3F4F5",
-          pageContainer: {
-            // paddingInlinePageContainerContent: 20,
-            // paddingBlockPageContainerContent: 20,
-          },
-          header: {
-            heightLayoutHeader: 66,
-            colorBgHeader: "#fff",
-          },
-          sider: {
-            colorMenuBackground: "#fff",
-          },
-        }}
-        title="PHV Admin Portal"
-        layout="mix"
-        route={{
-          children: routes,
-        }}
-        menuItemRender={(props, defaultDom) => {
-          return <Link href={props.path as any}>{defaultDom}</Link>;
-        }}
-      >
-        {children}
-      </ProLayout>
-    </ToolboxInitConfig>
+      {children}
+    </ProLayout>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { PageWrapper } from "@/common/components/PageWrapper";
 import {
   ProForm,
   ProFormDatePicker,
@@ -11,7 +12,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from "@ant-design/pro-components";
-import { CusProForm, PageWrapper, SectionSchemaForm } from "optkit-toolbox";
+import { CusProForm, SectionSchemaForm } from "optkit-toolbox";
 
 export default function Page() {
   return (

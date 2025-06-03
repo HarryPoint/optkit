@@ -1,6 +1,7 @@
 "use client";
 
-import { AsyncButton, PageWrapper } from "optkit-toolbox";
+import { PageWrapper } from "@/common/components/PageWrapper";
+import { AsyncButton } from "optkit-toolbox";
 
 export default function Page() {
   return (
