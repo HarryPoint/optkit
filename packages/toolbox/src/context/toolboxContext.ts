@@ -6,7 +6,6 @@ export type IDictionaryData = Record<
 >;
 
 export interface IToolboxContext {
-  router: any;
   getDictionary: () => Promise<IDictionaryData>;
 }
 

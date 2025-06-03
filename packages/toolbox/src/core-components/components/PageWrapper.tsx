@@ -1,19 +1,23 @@
 import { LeftOutlined } from "@ant-design/icons";
-import { ProCardProps } from "@ant-design/pro-components";
 import {
   FooterToolbar,
   PageContainer,
   PageContainerProps,
   ProCard,
+  ProCardProps,
 } from "@ant-design/pro-components";
 import { Button, Space, theme } from "antd";
 import { merge } from "lodash";
-import { useRouter } from "../../hooks/useRouter";
+import { usePathname, useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 export type PageWrapperProps = PageContainerProps;
 
 export const PageWrapper: React.FC<
-  PageWrapperProps & { card?: false | ProCardProps; showBack?: boolean }
+  PageWrapperProps & {
+    card?: false | ProCardProps;
+    showBack?: boolean;
+  }
 > = ({
   children,
   card = {},
@@ -28,12 +32,33 @@ export const PageWrapper: React.FC<
   footer,
   ...reset
 }) => {
+  const pathname = usePathname();
+
+  const backPathname = useMemo(() => {
+    const purePathname = pathname.replace(/\/\d+$/g, "");
+    const combine = purePathname?.split("/")?.slice(0, -1)?.join("/");
+    return combine;
+  }, [pathname]);
+
   const { token } = theme.useToken();
   const router = useRouter();
   const routeBack = () => {
+    const prev = window.location.href;
     router.back();
+    setTimeout(() => {
+      if (window.location.href === prev) {
+        router.push(backPathname);
+      }
+    }, 300);
   };
   const onBackFn = onBack ?? routeBack;
+
+  const disabledBack = useMemo(() => {
+    if (onBack) {
+      return false;
+    }
+    return backPathname === "/" || backPathname === "/sys";
+  }, [onBack, backPathname]);
 
   const showFooterToolbar = footer || footerToolBarProps;
 
@@ -48,13 +73,18 @@ export const PageWrapper: React.FC<
 
   return (
     <PageContainer
-      // backIcon={showBack ? backIcon : false}
-      // onBack={onBackFn}
       breadcrumbRender={(_props, defaultDom) => {
         return (
           <div>
             <div>
-              <div onClick={onBackFn}>{showBack ? backIcon : null}</div>
+              <Button
+                type="link"
+                disabled={disabledBack}
+                className="!px-0"
+                onClick={onBackFn}
+              >
+                {showBack ? backIcon : null}
+              </Button>
             </div>
             <div>{defaultDom}</div>
           </div>

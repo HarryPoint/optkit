@@ -23,9 +23,7 @@ export function SectionSchemaForm<T, ValueType = CusProComponentsType>(props: {
   const mergeRowProps = merge({}, originRowProps, rowProps);
   const mergeColProps = merge({}, originColProps, colProps);
 
-  return originGrid ? (
-    <BetaSchemaForm layoutType="Embed" columns={columns as any} />
-  ) : (
+  return (
     <GridContext.Provider
       value={{
         grid: true,
@@ -33,9 +31,13 @@ export function SectionSchemaForm<T, ValueType = CusProComponentsType>(props: {
         colProps: mergeColProps,
       }}
     >
-      <Row {...mergeRowProps}>
+      {originGrid ? (
         <BetaSchemaForm layoutType="Embed" columns={columns as any} />
-      </Row>
+      ) : (
+        <Row {...mergeRowProps}>
+          <BetaSchemaForm layoutType="Embed" columns={columns as any} />
+        </Row>
+      )}
     </GridContext.Provider>
   );
 }
