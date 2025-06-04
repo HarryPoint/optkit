@@ -36,8 +36,8 @@ const routes: Routes = [
         name: "DisabledFormItemProvider",
       },
       {
-        path: "/sys/core-components/SectionSchemaForm",
-        name: "SectionSchemaForm",
+        path: "/sys/core-components/SchemaFormSection",
+        name: "SchemaFormSection",
       },
     ],
   },

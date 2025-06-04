@@ -14,4 +14,4 @@ export { PreviewImage } from "./components/PreviewImage";
 export { PreviewPdf } from "./components/PreviewPdf";
 export { RequestSelect } from "./components/RequestSelect";
 export { SearchInput } from "./components/SearchInput";
-export { SectionSchemaForm } from "./components/SectionSchemaForm";
+export { SchemaFormSection } from "./components/SchemaFormSection";

@@ -12,13 +12,13 @@ import {
   ProFormText,
   ProFormTextArea,
 } from "@ant-design/pro-components";
-import { CusProForm, SectionSchemaForm } from "optkit-toolbox";
+import { CusProForm, SchemaFormSection } from "optkit-toolbox";
 
 export default function Page() {
   return (
     <PageWrapper>
       <CusProForm colProps={{ span: 8 }} rowProps={{ gutter: [90, 0] }}>
-        <SectionSchemaForm
+        <SchemaFormSection
           columns={[
             {
               title: "sdf",
@@ -90,7 +90,7 @@ export default function Page() {
             3: "full stack",
           }}
         />
-        <SectionSchemaForm
+        <SchemaFormSection
           colProps={{
             span: 12,
           }}

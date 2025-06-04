@@ -8,7 +8,7 @@ import { Col, GetProps, Row } from "antd";
 import { merge } from "lodash";
 import { useContext } from "react";
 
-export function SectionSchemaForm<T, ValueType = CusProComponentsType>(props: {
+export function SchemaFormSection<T, ValueType = CusProComponentsType>(props: {
   columns: ProFormColumnsType<T, ValueType>[];
   rowProps?: GetProps<typeof Row>;
   colProps?: GetProps<typeof Col>;
