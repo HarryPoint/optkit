@@ -12,11 +12,12 @@ import {
   ProFormText,
   ProFormTextArea,
 } from "@ant-design/pro-components";
-import { CusProForm, SchemaFormSection } from "optkit-toolbox";
+import { CusProField, CusProForm, SchemaFormSection } from "optkit-toolbox";
 
 export default function Page() {
   return (
     <PageWrapper>
+      <CusProField mode="read" text="sdf" valueType="_C"></CusProField>
       <CusProForm colProps={{ span: 8 }} rowProps={{ gutter: [90, 0] }}>
         <SchemaFormSection
           columns={[

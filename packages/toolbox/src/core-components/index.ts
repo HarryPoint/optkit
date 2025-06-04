@@ -4,6 +4,7 @@ export { default as BaseTable } from "./components/BaseTable";
 export { CusDatePicker } from "./components/CusDatePicker";
 export { CusDateTimePicker } from "./components/CusDateTimePicker";
 export { CusProDescriptions } from "./components/CusProDescriptions";
+export { CusProField } from "./components/CusProField";
 export { CusProForm } from "./components/CusProForm";
 export { CusProTable } from "./components/CusProTable";
 export { CusSchemaForm } from "./components/CusSchemaForm";
