@@ -193,7 +193,7 @@ const BaseTable = <
 
   useLayoutEffect(() => {
     formRef?.current?.setFieldsValue(searchFormInitialValues);
-  }, [searchFormInitialValues]);
+  }, []);
 
   const children = (
     <DragEnableContext.Provider value={false}>
