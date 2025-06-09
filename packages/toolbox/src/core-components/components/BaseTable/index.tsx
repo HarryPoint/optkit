@@ -14,7 +14,12 @@ import {
 import { useLocalStorageState, useSessionStorageState } from "ahooks";
 import { GetProps } from "antd";
 import { merge } from "lodash";
-import React, { useImperativeHandle, useMemo, useRef } from "react";
+import React, {
+  useImperativeHandle,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { TableBodyCell } from "./components/TableBodyCell";
 import { TableHeaderCell } from "./components/TableHeaderCell";
 import { TableCacheKey } from "./constant";
@@ -151,6 +156,10 @@ const BaseTable = <
       return [...tableColumns, ...searchColumns];
     }, [tableColumns, searchColumns]);
 
+  useLayoutEffect(() => {
+    formRef?.current?.setFieldsValue(searchFormInitialValues);
+  }, [searchFormInitialValues]);
+
   const children = (
     <DragEnableContext.Provider value={false}>
       <CacheKeyContext.Provider value={cacheKey}>
@@ -177,11 +186,14 @@ const BaseTable = <
               ...(props?.search ?? {}),
             }}
             form={{
-              initialValues: searchFormInitialValues,
               onValuesChange(val) {
                 setSearchFormInitialValues(val);
                 formRef.current?.submit();
               },
+            }}
+            onReset={() => {
+              setSearchFormInitialValues({});
+              props?.onReset?.();
             }}
             debounceTime={300}
             formRef={formRef}
