@@ -13,7 +13,15 @@ import {
 } from "@ant-design/pro-components";
 import { useLocalStorageState, useSessionStorageState } from "ahooks";
 import { GetProps } from "antd";
-import { isEmpty, merge, omit, omitBy } from "lodash";
+import {
+  isBoolean,
+  isEmpty,
+  isNumber,
+  isString,
+  merge,
+  omit,
+  omitBy,
+} from "lodash";
 import React, {
   useImperativeHandle,
   useLayoutEffect,
@@ -205,7 +213,20 @@ const BaseTable = <
             }}
             form={{
               onValuesChange(_, val) {
-                setSearchFormInitialValues(omitBy(val, (v) => v === ""));
+                setSearchFormInitialValues(
+                  omitBy(val, (v) => {
+                    if (isNumber(v)) {
+                      return false;
+                    }
+                    if (isString(v)) {
+                      return v === "";
+                    }
+                    if (isBoolean(v)) {
+                      return false;
+                    }
+                    return isEmpty(v);
+                  })
+                );
                 formRef.current?.submit();
               },
             }}
