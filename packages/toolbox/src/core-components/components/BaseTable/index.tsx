@@ -11,7 +11,11 @@ import {
   ProTable,
   ProTableProps,
 } from "@ant-design/pro-components";
-import { useLocalStorageState, useSessionStorageState } from "ahooks";
+import {
+  useDebounceFn,
+  useLocalStorageState,
+  useSessionStorageState,
+} from "ahooks";
 import { GetProps } from "antd";
 import {
   isBoolean,
@@ -115,6 +119,13 @@ const BaseTable = <
       defaultValue: {},
     });
 
+  const { run: debounceSetSearchFormInitialValues } = useDebounceFn(
+    setSearchFormInitialValues,
+    {
+      wait: 300,
+    }
+  );
+
   const tableColumns = useMemo<ProColumns<DataType, ValueType>[]>(() => {
     return originTableColumns
       .map((col) => {
@@ -213,7 +224,7 @@ const BaseTable = <
             }}
             form={{
               onValuesChange(_, val) {
-                setSearchFormInitialValues(
+                debounceSetSearchFormInitialValues(
                   omitBy(val, (v) => {
                     if (isNumber(v)) {
                       return false;
@@ -231,10 +242,10 @@ const BaseTable = <
               },
             }}
             onReset={() => {
-              setSearchFormInitialValues({});
+              debounceSetSearchFormInitialValues({});
               props?.onReset?.();
             }}
-            debounceTime={300}
+            debounceTime={props?.debounceTime ?? 300}
             formRef={formRef}
             columns={calcColumns}
             components={{
