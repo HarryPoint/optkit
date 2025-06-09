@@ -13,30 +13,30 @@ export default function Page() {
             title: "search",
             dataIndex: "search",
           },
-          // {
-          //   title: "search",
-          //   dataIndex: "search1",
-          // },
-          // {
-          //   title: "search",
-          //   dataIndex: "search2",
-          // },
-          // {
-          //   title: "search",
-          //   dataIndex: "search3",
-          // },
-          // {
-          //   title: "search",
-          //   dataIndex: "search4",
-          // },
-          // {
-          //   title: "search",
-          //   dataIndex: "search5",
-          // },
-          // {
-          //   title: "search",
-          //   dataIndex: "search6",
-          // },
+          {
+            title: "search",
+            dataIndex: "search1",
+          },
+          {
+            title: "search",
+            dataIndex: "search2",
+          },
+          {
+            title: "search",
+            dataIndex: "search3",
+          },
+          {
+            title: "search",
+            dataIndex: "search4",
+          },
+          {
+            title: "search",
+            dataIndex: "search5",
+          },
+          {
+            title: "search",
+            dataIndex: "search6",
+          },
         ]}
         columns={[
           { title: "demo", dataIndex: "demo" },
