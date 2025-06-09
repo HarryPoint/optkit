@@ -21,3 +21,7 @@ export const hiddenColumnsCacheKey = (prefix: string) => {
 export const sortColumnsCacheKey = (prefix: string) => {
   return `${prefix}-sort-columns`;
 };
+
+export const searchFormCacheKey = (prefix: string) => {
+  return `${prefix}-search-initialValue`;
+};

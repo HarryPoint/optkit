@@ -11,7 +11,7 @@ import {
   ProTable,
   ProTableProps,
 } from "@ant-design/pro-components";
-import { useLocalStorageState } from "ahooks";
+import { useLocalStorageState, useSessionStorageState } from "ahooks";
 import { GetProps } from "antd";
 import { merge } from "lodash";
 import React, { useImperativeHandle, useMemo, useRef } from "react";
@@ -25,6 +25,7 @@ import { useDragTable } from "./hooks/useDragTable";
 import {
   dataIndexToKey,
   hiddenColumnsCacheKey,
+  searchFormCacheKey,
   sortColumnsCacheKey,
 } from "./utils";
 
@@ -95,6 +96,11 @@ const BaseTable = <
       listenStorageChange: true,
     }
   );
+
+  const [searchFormInitialValues, setSearchFormInitialValues] =
+    useSessionStorageState<Record<string, any>>(searchFormCacheKey(cacheKey), {
+      defaultValue: {},
+    });
 
   const tableColumns = useMemo<ProColumns<DataType, ValueType>[]>(() => {
     return originTableColumns
@@ -168,11 +174,14 @@ const BaseTable = <
                 padding: "0px",
               },
               searchGutter: [10, 10],
-              // @ts-ignore
-              onValuesChange() {
+              ...(props?.search ?? {}),
+            }}
+            form={{
+              initialValues: searchFormInitialValues,
+              onValuesChange(val) {
+                setSearchFormInitialValues(val);
                 formRef.current?.submit();
               },
-              ...(props?.search ?? {}),
             }}
             debounceTime={300}
             formRef={formRef}
