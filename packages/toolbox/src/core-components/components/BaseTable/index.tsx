@@ -13,7 +13,7 @@ import {
 } from "@ant-design/pro-components";
 import { useLocalStorageState, useSessionStorageState } from "ahooks";
 import { GetProps } from "antd";
-import { merge } from "lodash";
+import { isEmpty, merge, omit, omitBy } from "lodash";
 import React, {
   useImperativeHandle,
   useLayoutEffect,
@@ -156,6 +156,22 @@ const BaseTable = <
       return [...tableColumns, ...searchColumns];
     }, [tableColumns, searchColumns]);
 
+  const searchSpan = useMemo(() => {
+    return (props.search && props?.search?.span) ?? 6;
+  }, []);
+
+  const defaultCollapsed = useMemo(() => {
+    if (isEmpty(searchFormInitialValues)) {
+      return true;
+    }
+    const col = Math.floor(24 / (searchSpan as number)) - 1;
+    const firstRowSearchKeys = searchColumns
+      ?.slice(0, col)
+      ?.map((item) => dataIndexToKey(item.dataIndex as string));
+    const resetData = omit(searchFormInitialValues, firstRowSearchKeys);
+    return isEmpty(resetData);
+  }, [searchSpan, searchFormInitialValues, searchColumns]);
+
   useLayoutEffect(() => {
     formRef?.current?.setFieldsValue(searchFormInitialValues);
   }, [searchFormInitialValues]);
@@ -182,12 +198,14 @@ const BaseTable = <
               style: {
                 padding: "0px",
               },
+              span: searchSpan,
+              defaultCollapsed,
               searchGutter: [10, 10],
               ...(props?.search ?? {}),
             }}
             form={{
-              onValuesChange(val) {
-                setSearchFormInitialValues(val);
+              onValuesChange(_, val) {
+                setSearchFormInitialValues(omitBy(val, (v) => v === ""));
                 formRef.current?.submit();
               },
             }}
