@@ -1,6 +1,6 @@
 {
   "name": "optkit-toolbox",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
