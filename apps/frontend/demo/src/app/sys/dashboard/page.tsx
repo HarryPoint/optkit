@@ -8,6 +8,13 @@ export default function Page() {
     <PageWrapper>
       <BaseTable
         cacheKey="demo"
+        beforeInitialForm={(val) => {
+          console.log("beforeInitialForm: ", val);
+          return {
+            ...val,
+            search1: "sdf",
+          };
+        }}
         searchColumns={[
           {
             title: "search",

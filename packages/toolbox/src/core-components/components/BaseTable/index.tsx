@@ -239,12 +239,11 @@ const BaseTable = <
             }}
             beforeSearchSubmit={(v) => {
               if (initialFormFlag.current === false) {
-                formRef?.current?.setFieldsValue(searchFormInitialValues);
+                const formVal = beforeInitialForm(searchFormInitialValues);
+                formRef?.current?.setFieldsValue(formVal);
                 v = merge(
                   v,
-                  beforeInitialForm(
-                    formRef?.current?.getFieldFormatValueObject()
-                  )
+                  formRef?.current?.getFieldFormatValueObject() ?? {}
                 );
                 initialFormFlag.current = true;
               }
