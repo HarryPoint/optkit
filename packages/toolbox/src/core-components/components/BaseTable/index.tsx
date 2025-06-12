@@ -73,7 +73,7 @@ const BaseTable = <
     searchColumns: originSearchColumns = [],
     actionRef: originActionRef,
     formRef: originFormRef,
-    initialFormWithCacheValue = false,
+    initialFormWithCacheValue = true,
   } = props;
 
   const initialFormFlag = useRef<Boolean>(false);
