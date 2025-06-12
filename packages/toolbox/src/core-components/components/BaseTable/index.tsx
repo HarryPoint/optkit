@@ -64,6 +64,7 @@ const BaseTable = <
     searchColumns?: ProTableProps<DataType, Params, ValueType>["columns"];
     actionRef?: React.Ref<BaseTableActionType | undefined>;
     formRef?: React.Ref<BaseTableSearchForm | undefined>;
+    initialFormWithCacheValue?: Boolean;
   }
 ) => {
   const {
@@ -72,7 +73,10 @@ const BaseTable = <
     searchColumns: originSearchColumns = [],
     actionRef: originActionRef,
     formRef: originFormRef,
+    initialFormWithCacheValue = false,
   } = props;
+
+  const initialFormFlag = useRef<Boolean>(false);
 
   const actionRef = useRef<ActionType>(null);
 
@@ -192,8 +196,10 @@ const BaseTable = <
   }, [searchSpan, searchFormInitialValues, searchColumns]);
 
   useLayoutEffect(() => {
-    formRef?.current?.setFieldsValue(searchFormInitialValues);
-  }, []);
+    if (initialFormFlag.current === false && initialFormWithCacheValue) {
+      formRef?.current?.setFieldsValue(searchFormInitialValues);
+    }
+  }, [initialFormWithCacheValue]);
 
   const children = (
     <DragEnableContext.Provider value={false}>
