@@ -26,12 +26,7 @@ import {
   omit,
   omitBy,
 } from "lodash";
-import React, {
-  useImperativeHandle,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-} from "react";
+import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { TableBodyCell } from "./components/TableBodyCell";
 import { TableHeaderCell } from "./components/TableHeaderCell";
 import { TableCacheKey } from "./constant";
@@ -64,7 +59,7 @@ const BaseTable = <
     searchColumns?: ProTableProps<DataType, Params, ValueType>["columns"];
     actionRef?: React.Ref<BaseTableActionType | undefined>;
     formRef?: React.Ref<BaseTableSearchForm | undefined>;
-    initialFormWithCacheValue?: Boolean;
+    beforeInitialForm?: (formVal: Record<string, any>) => Record<string, any>;
   }
 ) => {
   const {
@@ -73,7 +68,7 @@ const BaseTable = <
     searchColumns: originSearchColumns = [],
     actionRef: originActionRef,
     formRef: originFormRef,
-    initialFormWithCacheValue = true,
+    beforeInitialForm = (formVal) => formVal,
   } = props;
 
   const initialFormFlag = useRef<Boolean>(false);
@@ -123,8 +118,23 @@ const BaseTable = <
       defaultValue: {},
     });
 
-  const { run: debounceSetSearchFormInitialValues } = useDebounceFn(
-    setSearchFormInitialValues,
+  const { run: debounceUpdateSearchFormInitialValues } = useDebounceFn(
+    () => {
+      const formVal = formRef?.current.getFieldsValue();
+      const omitVal = omitBy(formVal, (v) => {
+        if (isNumber(v)) {
+          return false;
+        }
+        if (isString(v)) {
+          return v === "";
+        }
+        if (isBoolean(v)) {
+          return false;
+        }
+        return isEmpty(v);
+      });
+      setSearchFormInitialValues(omitVal);
+    },
     {
       wait: 300,
     }
@@ -195,12 +205,6 @@ const BaseTable = <
     return isEmpty(resetData);
   }, [searchSpan, searchFormInitialValues, searchColumns]);
 
-  useLayoutEffect(() => {
-    if (initialFormFlag.current === false && initialFormWithCacheValue) {
-      formRef?.current?.setFieldsValue(searchFormInitialValues);
-    }
-  }, [initialFormWithCacheValue]);
-
   const children = (
     <DragEnableContext.Provider value={false}>
       <CacheKeyContext.Provider value={cacheKey}>
@@ -230,26 +234,25 @@ const BaseTable = <
             }}
             form={{
               onValuesChange(_, val) {
-                debounceSetSearchFormInitialValues(
-                  omitBy(val, (v) => {
-                    if (isNumber(v)) {
-                      return false;
-                    }
-                    if (isString(v)) {
-                      return v === "";
-                    }
-                    if (isBoolean(v)) {
-                      return false;
-                    }
-                    return isEmpty(v);
-                  })
-                );
                 formRef.current?.submit();
               },
             }}
-            onReset={() => {
-              debounceSetSearchFormInitialValues({});
-              props?.onReset?.();
+            beforeSearchSubmit={(v) => {
+              if (initialFormFlag.current === false) {
+                formRef?.current?.setFieldsValue(searchFormInitialValues);
+                v = merge(
+                  v,
+                  beforeInitialForm(
+                    formRef?.current?.getFieldFormatValueObject()
+                  )
+                );
+                initialFormFlag.current = true;
+              }
+              debounceUpdateSearchFormInitialValues();
+              if (props?.beforeSearchSubmit) {
+                return props?.beforeSearchSubmit(v);
+              }
+              return v;
             }}
             debounceTime={props?.debounceTime ?? 300}
             formRef={formRef}
