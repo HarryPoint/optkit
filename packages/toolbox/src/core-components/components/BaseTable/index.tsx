@@ -241,7 +241,10 @@ const BaseTable = <
               if (initialFormFlag.current === false) {
                 const formVal = beforeInitialForm(searchFormInitialValues);
                 formRef?.current?.setFieldsValue(formVal);
-                v = merge(v, formRef?.current?.getFieldsFormatValue() ?? {});
+                v = {
+                  ...v,
+                  ...(formRef?.current?.getFieldsFormatValue() ?? {}),
+                };
                 initialFormFlag.current = true;
               }
               debounceUpdateSearchFormInitialValues();
