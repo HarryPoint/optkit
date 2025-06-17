@@ -1,6 +1,7 @@
 "use client";
 
 import { PageWrapper } from "@/common/components/PageWrapper";
+import axios from "axios";
 import { BaseTable } from "optkit-toolbox";
 
 export default function Page() {
@@ -8,12 +9,22 @@ export default function Page() {
     <PageWrapper>
       <BaseTable
         cacheKey="demo"
-        beforeInitialForm={(val) => {
-          console.log("beforeInitialForm: ", val);
-          return {
-            ...val,
-            search1: "sdf",
-          };
+        // beforeInitialForm={() => {
+        //   console.log("beforeInitialForm: ", val);
+        //   return {
+        //     ...val,
+        //   };
+        // }}
+        form={{
+          initialValues: ({ cacheValues, initialFormFlag }) => {
+            if (initialFormFlag) {
+              return { search: "sdkfsdjkfj" };
+            }
+            return cacheValues;
+          },
+        }}
+        onSubmit={(val) => {
+          console.log("onSubmitval: ", val);
         }}
         searchColumns={[
           {
@@ -23,26 +34,7 @@ export default function Page() {
           {
             title: "search",
             dataIndex: "search1",
-          },
-          {
-            title: "search",
-            dataIndex: "search2",
-          },
-          {
-            title: "search",
-            dataIndex: "search3",
-          },
-          {
-            title: "search",
-            dataIndex: "search4",
-          },
-          {
-            title: "search",
-            dataIndex: "search5",
-          },
-          {
-            title: "search",
-            dataIndex: "search6",
+            valueType: "dateRange",
           },
         ]}
         columns={[
@@ -55,6 +47,7 @@ export default function Page() {
         ]}
         request={async ({ ...arg }) => {
           console.log("async: ", arg);
+
           return {
             success: true,
             data: Array.from({ length: 20 }, (_, index) => {

@@ -26,7 +26,7 @@ import {
   omit,
   omitBy,
 } from "lodash";
-import React, { useImperativeHandle, useMemo, useRef } from "react";
+import React, { useImperativeHandle, useMemo, useRef, useState } from "react";
 import { TableBodyCell } from "./components/TableBodyCell";
 import { TableHeaderCell } from "./components/TableHeaderCell";
 import { TableCacheKey } from "./constant";
@@ -54,12 +54,22 @@ const BaseTable = <
   Params extends ParamsType = ParamsType,
   ValueType = CusProComponentsType
 >(
-  props: ProTableProps<DataType, Params, ValueType> & {
+  props: Omit<ProTableProps<DataType, Params, ValueType>, "form"> & {
     cacheKey: TableCacheKey | string;
     searchColumns?: ProTableProps<DataType, Params, ValueType>["columns"];
     actionRef?: React.Ref<BaseTableActionType | undefined>;
     formRef?: React.Ref<BaseTableSearchForm | undefined>;
-    beforeInitialForm?: (formVal: Record<string, any>) => Record<string, any>;
+    form?: Omit<
+      ProTableProps<DataType, Params, ValueType>["form"],
+      "initialValues"
+    > & {
+      initialValues:
+        | Record<string, any>
+        | ((arg: {
+            cacheValues: Record<string, any>;
+            initialFormFlag: boolean;
+          }) => Record<string, any>);
+    };
   }
 ) => {
   const {
@@ -68,10 +78,9 @@ const BaseTable = <
     searchColumns: originSearchColumns = [],
     actionRef: originActionRef,
     formRef: originFormRef,
-    beforeInitialForm = (formVal) => formVal,
   } = props;
 
-  const initialFormFlag = useRef<Boolean>(false);
+  const [initialFormFlag, setInitialFormFlag] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>(null);
 
@@ -118,9 +127,22 @@ const BaseTable = <
       defaultValue: {},
     });
 
+  const initialValues = useMemo(() => {
+    const originInitialValues = props?.form?.initialValues ?? {};
+    if (typeof originInitialValues === "function") {
+      return originInitialValues({
+        cacheValues: searchFormInitialValues,
+        initialFormFlag,
+      });
+    }
+    return initialFormFlag
+      ? originInitialValues
+      : { ...searchFormInitialValues, ...originInitialValues };
+  }, [props?.form?.initialValues, searchFormInitialValues, initialFormFlag]);
+
   const { run: debounceUpdateSearchFormInitialValues } = useDebounceFn(
     () => {
-      const formVal = formRef?.current.getFieldsValue();
+      const formVal = formRef?.current.getFieldsFormatValue();
       const omitVal = omitBy(formVal, (v) => {
         if (isNumber(v)) {
           return false;
@@ -233,20 +255,13 @@ const BaseTable = <
               ...(props?.search ?? {}),
             }}
             form={{
+              initialValues,
               onValuesChange(_, val) {
                 formRef.current?.submit();
               },
             }}
             beforeSearchSubmit={(v) => {
-              if (initialFormFlag.current === false) {
-                const formVal = beforeInitialForm(searchFormInitialValues);
-                formRef?.current?.setFieldsValue(formVal);
-                v = {
-                  ...v,
-                  ...(formRef?.current?.getFieldsFormatValue() ?? {}),
-                };
-                initialFormFlag.current = true;
-              }
+              setInitialFormFlag(true);
               debounceUpdateSearchFormInitialValues();
               if (props?.beforeSearchSubmit) {
                 return props?.beforeSearchSubmit(v);
