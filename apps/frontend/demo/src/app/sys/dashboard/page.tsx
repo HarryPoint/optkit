@@ -18,7 +18,10 @@ export default function Page() {
           if (initialFormFlag) {
             return initialValues;
           }
-          return cacheValues;
+          return {
+            ...cacheValues,
+            search2: "search6",
+          };
         }}
         form={{
           initialValues: { search: "sdkfsdjkfj" },
@@ -34,6 +37,33 @@ export default function Page() {
           {
             title: "search",
             dataIndex: "search1",
+            valueType: "dateRange",
+          },
+          {
+            title: "search",
+            dataIndex: "search2",
+          },
+          {
+            title: "search",
+            dataIndex: "search3",
+            valueType: "text",
+          },
+          {
+            title: "search",
+            dataIndex: "search4",
+          },
+          {
+            title: "search",
+            dataIndex: "search5",
+            valueType: "dateRange",
+          },
+          {
+            title: "search",
+            dataIndex: "search6",
+          },
+          {
+            title: "search",
+            dataIndex: "search7",
             valueType: "dateRange",
           },
         ]}

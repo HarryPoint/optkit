@@ -226,16 +226,16 @@ const BaseTable = <
   }, []);
 
   const defaultCollapsed = useMemo(() => {
-    if (isEmpty(searchFormInitialValues)) {
+    if (isEmpty(initialValues)) {
       return true;
     }
     const col = Math.floor(24 / (searchSpan as number)) - 1;
     const firstRowSearchKeys = searchColumns
       ?.slice(0, col)
       ?.map((item) => dataIndexToKey(item.dataIndex as string));
-    const resetData = omit(searchFormInitialValues, firstRowSearchKeys);
+    const resetData = omit(initialValues, firstRowSearchKeys);
     return isEmpty(resetData);
-  }, [searchSpan, searchFormInitialValues, searchColumns]);
+  }, [searchSpan, initialValues, searchColumns]);
 
   const children = (
     <DragEnableContext.Provider value={false}>
