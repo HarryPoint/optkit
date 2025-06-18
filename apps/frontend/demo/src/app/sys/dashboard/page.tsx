@@ -9,19 +9,19 @@ export default function Page() {
     <PageWrapper>
       <BaseTable
         cacheKey="demo"
-        // beforeInitialForm={() => {
-        //   console.log("beforeInitialForm: ", val);
-        //   return {
-        //     ...val,
-        //   };
-        // }}
+        beforeInitialForm={({
+          initialValues,
+          cacheValues,
+          initialFormFlag,
+        }) => {
+          console.log("beforeInitialForm: ", initialValues);
+          if (initialFormFlag) {
+            return initialValues;
+          }
+          return cacheValues;
+        }}
         form={{
-          initialValues: ({ cacheValues, initialFormFlag }) => {
-            if (initialFormFlag) {
-              return { search: "sdkfsdjkfj" };
-            }
-            return cacheValues;
-          },
+          initialValues: { search: "sdkfsdjkfj" },
         }}
         onSubmit={(val) => {
           console.log("onSubmitval: ", val);

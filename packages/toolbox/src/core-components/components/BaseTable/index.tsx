@@ -54,22 +54,19 @@ const BaseTable = <
   Params extends ParamsType = ParamsType,
   ValueType = CusProComponentsType
 >(
-  props: Omit<ProTableProps<DataType, Params, ValueType>, "form"> & {
+  props: ProTableProps<DataType, Params, ValueType> & {
     cacheKey: TableCacheKey | string;
     searchColumns?: ProTableProps<DataType, Params, ValueType>["columns"];
     actionRef?: React.Ref<BaseTableActionType | undefined>;
     formRef?: React.Ref<BaseTableSearchForm | undefined>;
-    form?: Omit<
-      ProTableProps<DataType, Params, ValueType>["form"],
-      "initialValues"
-    > & {
-      initialValues:
-        | Record<string, any>
-        | ((arg: {
-            cacheValues: Record<string, any>;
-            initialFormFlag: boolean;
-          }) => Record<string, any>);
-    };
+    beforeInitialForm?: (
+      arg: {
+        cacheValues: Record<string, any>;
+        initialValues: Record<string, any>;
+        initialFormFlag: boolean;
+      },
+      defaultFn: () => Record<string, any>
+    ) => Record<string, any>;
   }
 ) => {
   const {
@@ -78,6 +75,7 @@ const BaseTable = <
     searchColumns: originSearchColumns = [],
     actionRef: originActionRef,
     formRef: originFormRef,
+    beforeInitialForm,
   } = props;
 
   const [initialFormFlag, setInitialFormFlag] = useState<boolean>(false);
@@ -129,16 +127,28 @@ const BaseTable = <
 
   const initialValues = useMemo(() => {
     const originInitialValues = props?.form?.initialValues ?? {};
-    if (typeof originInitialValues === "function") {
-      return originInitialValues({
-        cacheValues: searchFormInitialValues,
-        initialFormFlag,
-      });
+    const defaultLogic = () => {
+      return initialFormFlag
+        ? originInitialValues
+        : { ...searchFormInitialValues, ...originInitialValues };
+    };
+    if (beforeInitialForm) {
+      return beforeInitialForm(
+        {
+          cacheValues: searchFormInitialValues,
+          initialValues: originInitialValues,
+          initialFormFlag,
+        },
+        defaultLogic
+      );
     }
-    return initialFormFlag
-      ? originInitialValues
-      : { ...searchFormInitialValues, ...originInitialValues };
-  }, [props?.form?.initialValues, searchFormInitialValues, initialFormFlag]);
+    return defaultLogic();
+  }, [
+    props?.form?.initialValues,
+    searchFormInitialValues,
+    initialFormFlag,
+    beforeInitialForm,
+  ]);
 
   const { run: debounceUpdateSearchFormInitialValues } = useDebounceFn(
     () => {
