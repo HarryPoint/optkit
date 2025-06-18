@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup"
+    "build": "tsup",
+    "sync": "open https://npmmirror.com/package/optkit-toolbox"
   },
   "keywords": [],
   "author": "",
