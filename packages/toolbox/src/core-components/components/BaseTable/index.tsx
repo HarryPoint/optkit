@@ -40,6 +40,7 @@ import {
   searchFormCacheKey,
   sortColumnsCacheKey,
 } from "./utils";
+import { useDevice } from "../../../hooks";
 
 export type BaseTableActionType = ActionType;
 
@@ -77,6 +78,8 @@ const BaseTable = <
     formRef: originFormRef,
     beforeInitialForm,
   } = props;
+
+  const { isMobile } = useDevice();
 
   const [initialFormFlag, setInitialFormFlag] = useState<boolean>(false);
 
@@ -222,8 +225,8 @@ const BaseTable = <
     }, [tableColumns, searchColumns]);
 
   const searchSpan = useMemo(() => {
-    return (props.search && props?.search?.span) ?? 6;
-  }, []);
+    return (props.search && props?.search?.span) ?? (isMobile ? 12 : 6);
+  }, [isMobile]);
 
   const defaultCollapsed = useMemo(() => {
     if (isEmpty(initialValues)) {
