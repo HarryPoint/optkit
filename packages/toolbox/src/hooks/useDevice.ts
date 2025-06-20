@@ -1,9 +1,11 @@
-import { useRouteContext } from "./useRouteContext";
-import { useResponsive } from "ahooks";
+import { useBreakpoint } from "@ant-design/pro-components";
+import { useMemo } from "react";
 
 export const useDevice = () => {
-  const { isMobile } = useRouteContext();
-  const responsive = useResponsive();
-  // 使用 responsive 信息作为后备方案
-  return { isMobile: isMobile ?? !responsive?.sm };
+  const colSize = useBreakpoint();
+  const isMobile = useMemo(() => {
+    return colSize === "sm" || colSize === "xs" || colSize === "md";
+  }, [colSize]);
+
+  return { isMobile: isMobile };
 };
