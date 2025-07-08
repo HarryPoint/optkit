@@ -16,3 +16,4 @@ export { PreviewPdf } from "./components/PreviewPdf";
 export { RequestSelect } from "./components/RequestSelect";
 export { SearchInput } from "./components/SearchInput";
 export { SchemaFormSection } from "./components/SchemaFormSection";
+export { CarDamageCanvas } from "./components/CarDamageCanvas";
