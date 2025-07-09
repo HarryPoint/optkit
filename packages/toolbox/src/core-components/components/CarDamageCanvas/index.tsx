@@ -8,7 +8,15 @@ import {
   Path,
 } from "@antv/g";
 import { Renderer } from "@antv/g-canvas";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { ImageExporter } from "@antv/g-image-exporter";
+import React from "react";
+import {
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 const originMetaData = [
   { type: "front_left_bumper", coordinates: [98, 24] },
@@ -74,6 +82,7 @@ type CarDamageCanvasProps<T> = {
   pins: PinItem<T>[];
   onAdd: (position: { x: number; y: number }, type: string) => void;
   onClickPin: (data: PinItem<T>) => void;
+  ref?: React.Ref<any>;
 };
 
 const createPin = (data: PinItem) => {
@@ -137,10 +146,13 @@ const createArea = (path: string, type: string) => {
   return area;
 };
 
-export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
+export const CarDamageCanvas = React.forwardRef(function CarDamageCanvasInner<
+  T = any
+>(props: CarDamageCanvasProps<T>, ref: any) {
   const { pins = [], onAdd, onClickPin } = props;
   const domRef = useRef();
   const canvasIns = useRef<InstanceType<typeof Canvas>>();
+  const exporterIns = useRef<InstanceType<typeof ImageExporter>>();
   const areaGroupIns = useRef<InstanceType<typeof Group>>();
   const pinGroupIns = useRef<InstanceType<typeof Group>>();
   const [ready, setReady] = useState(false);
@@ -228,6 +240,11 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
       height: 400,
       renderer: new Renderer(),
     });
+    exporterIns.current = new ImageExporter({
+      // @ts-ignore
+      canvas,
+      defaultFilename: "CarDamageCanvas",
+    });
     areaGroupIns.current = new Group();
     pinGroupIns.current = new Group();
     canvasIns.current = canvas;
@@ -241,10 +258,23 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
     };
   }, []);
 
+  useImperativeHandle(ref, () => {
+    return {
+      toCanvas: async () => {
+        return exporterIns.current?.toCanvas();
+      },
+      toImage: async (quality?: any) => {
+        const baseCanvas = await exporterIns.current?.toCanvas();
+        console.log("baseCanvas: ", baseCanvas);
+        return baseCanvas.toDataURL("image/png", quality);
+      },
+    };
+  });
+
   return (
     <div
       ref={domRef}
       style={{ display: "inline-block", border: "solid 1px #fafafa" }}
     ></div>
   );
-}
+});

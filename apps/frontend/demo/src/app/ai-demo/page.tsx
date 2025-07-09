@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { App } from "antd";
+import { useRef, useState } from "react";
+import { App, Button } from "antd";
 import { CarDamageCanvas } from "optkit-toolbox";
 
 export default function Page() {
   const { modal } = App.useApp();
+  const damageCanvasIns = useRef<typeof CarDamageCanvas>();
+  const [imageData, setImageData] = useState();
 
   const [pins, setPins] = useState([
     {
@@ -15,35 +17,48 @@ export default function Page() {
   ]);
 
   return (
-    <CarDamageCanvas
-      pins={pins}
-      onAdd={(ev: any, type: string) => {
-        setPins((prev) => {
-          return [
-            ...prev,
-            {
-              position: {
-                x: ev.x,
-                y: ev.y,
+    <div>
+      <CarDamageCanvas
+        ref={damageCanvasIns}
+        pins={pins}
+        onAdd={(ev: any, type: string) => {
+          setPins((prev) => {
+            return [
+              ...prev,
+              {
+                position: {
+                  x: ev.x,
+                  y: ev.y,
+                },
+                metaData: {
+                  type,
+                },
               },
-              metaData: {
-                type,
-              },
-            },
-          ];
-        });
-      }}
-      onClickPin={(data: any) => {
-        modal.info({
-          title: data?.metaData?.type ?? "sdfdsf",
-          content: (
-            <div>
-              <div>x: {data?.position?.x}</div>
-              <div>y: {data?.position?.y}</div>
-            </div>
-          ),
-        });
-      }}
-    />
+            ];
+          });
+        }}
+        onClickPin={(data: any) => {
+          modal.info({
+            title: data?.metaData?.type ?? "sdfdsf",
+            content: (
+              <div>
+                <div>x: {data?.position?.x}</div>
+                <div>y: {data?.position?.y}</div>
+              </div>
+            ),
+          });
+        }}
+      />
+      <Button
+        onClick={async () => {
+          const imageData = await damageCanvasIns?.current?.toImage?.();
+          console.log("imageData: ", imageData);
+          setImageData(imageData);
+        }}
+      >
+        获取图像
+      </Button>
+      {imageData && <img src={imageData} alt="demo" />}
+    </div>
   );
 }
