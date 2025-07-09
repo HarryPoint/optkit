@@ -189,5 +189,10 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
     };
   }, []);
 
-  return <div ref={domRef} className="inline-block border"></div>;
+  return (
+    <div
+      ref={domRef}
+      style={{ display: "inline-block", border: "solid 1px #fafafa" }}
+    ></div>
+  );
 }
