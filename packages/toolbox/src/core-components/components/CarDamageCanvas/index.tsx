@@ -3,13 +3,14 @@ import {
   CanvasEvent,
   Circle,
   CircleStyleProps,
+  convertToPath,
   Group,
   Path,
 } from "@antv/g";
 import { Renderer } from "@antv/g-canvas";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const metaData = [
+const originMetaData = [
   { type: "front_left_bumper", coordinates: [98, 24] },
   { type: "front_left_side_bumper", coordinates: [37, 61] },
   { type: "front_right_bumper", coordinates: [186, 24] },
@@ -58,6 +59,11 @@ const metaData = [
   { type: "right_mirror", coordinates: [210, 140] },
 ];
 
+const metaData = originMetaData?.map((item) => ({
+  ...item,
+  coordinates: item.coordinates?.map((l) => l + 8),
+}));
+
 type PinItem<T = any> = {
   position: { x: number; y: number };
   style?: Partial<Omit<CircleStyleProps, "id">>;
@@ -66,7 +72,7 @@ type PinItem<T = any> = {
 
 type CarDamageCanvasProps<T> = {
   pins: PinItem<T>[];
-  onAdd: (position: { x: number; y: number }) => void;
+  onAdd: (position: { x: number; y: number }, type: string) => void;
   onClickPin: (data: PinItem<T>) => void;
 };
 
@@ -111,17 +117,38 @@ const createPin = (data: PinItem) => {
   return pin;
 };
 
+const createArea = (path: string, type: string) => {
+  const area = new Path({
+    id: type,
+    style: {
+      d: path,
+      cursor: "pointer",
+      stroke: "black",
+    },
+  });
+  // @ts-ignore
+  area.setAttribute("data-origin", type);
+  area.addEventListener("mouseenter", () => {
+    area.style.fill = "red";
+  });
+  area.addEventListener("mouseleave", () => {
+    area.style.fill = "none";
+  });
+  return area;
+};
+
 export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
   const { pins = [], onAdd, onClickPin } = props;
   const domRef = useRef();
   const canvasIns = useRef<InstanceType<typeof Canvas>>();
+  const areaGroupIns = useRef<InstanceType<typeof Group>>();
   const pinGroupIns = useRef<InstanceType<typeof Group>>();
   const [ready, setReady] = useState(false);
   const defaultPins = useMemo<PinItem[]>(() => {
     return metaData?.map((item) => {
       const [x, y] = item.coordinates;
       return {
-        position: { x: x + 8, y: y + 8 },
+        position: { x, y },
         metaData: {
           type: item.type,
         },
@@ -132,6 +159,28 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
   const combinePins = useMemo(() => {
     return [...defaultPins, ...pins];
   }, [defaultPins, pins]);
+
+  useEffect(() => {
+    if (ready) {
+      metaData.forEach((item) => {
+        const [cx, cy] = item.coordinates;
+        const circle = new Circle({
+          style: {
+            cx,
+            cy,
+            r: 20,
+            stroke: "black",
+          },
+        });
+        const pathStr = convertToPath(circle);
+        const areaItem = createArea(pathStr, item.type);
+        areaGroupIns.current?.appendChild(areaItem);
+      });
+    }
+    return () => {
+      areaGroupIns.current?.removeChildren?.();
+    };
+  }, [ready]);
 
   useEffect(() => {
     if (ready) {
@@ -161,13 +210,14 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
 
   useEffect(() => {
     const onAddInner = (ev: any) => {
-      onAdd?.(ev.canvas);
+      const type = ev.target.getAttribute("data-origin");
+      onAdd?.(ev.canvas, type);
     };
     if (ready) {
-      canvasIns.current.addEventListener("click", onAddInner);
+      areaGroupIns.current.addEventListener("click", onAddInner);
     }
     return () => {
-      canvasIns.current?.removeEventListener?.("click", onAddInner);
+      areaGroupIns.current?.removeEventListener?.("click", onAddInner);
     };
   }, [ready, onAdd]);
 
@@ -178,9 +228,11 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
       height: 400,
       renderer: new Renderer(),
     });
+    areaGroupIns.current = new Group();
     pinGroupIns.current = new Group();
     canvasIns.current = canvas;
     canvas.addEventListener(CanvasEvent.READY, () => {
+      canvas.appendChild(areaGroupIns.current);
       canvas.appendChild(pinGroupIns.current);
       setReady(true);
     });

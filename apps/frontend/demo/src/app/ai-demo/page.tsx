@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <CarDamageCanvas
       pins={pins}
-      onAdd={(ev: any) => {
+      onAdd={(ev: any, type: string) => {
         setPins((prev) => {
           return [
             ...prev,
@@ -26,7 +26,9 @@ export default function Page() {
                 x: ev.x,
                 y: ev.y,
               },
-              metaData: {},
+              metaData: {
+                type,
+              },
             },
           ];
         });
