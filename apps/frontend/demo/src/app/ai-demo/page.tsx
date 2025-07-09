@@ -1,15 +1,17 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { App, Button } from "antd";
+import { App, Button, GetProp, GetRef } from "antd";
 import { CarDamageCanvas } from "optkit-toolbox";
+
+type PinItems = GetProp<typeof CarDamageCanvas, "pins">;
 
 export default function Page() {
   const { modal } = App.useApp();
-  const damageCanvasIns = useRef<typeof CarDamageCanvas>();
-  const [imageData, setImageData] = useState();
+  const damageCanvasIns = useRef<GetRef<typeof CarDamageCanvas> | null>(null);
+  const [imageData, setImageData] = useState<string>();
 
-  const [pins, setPins] = useState([]);
+  const [pins, setPins] = useState<PinItems>([]);
 
   return (
     <div>
@@ -18,7 +20,9 @@ export default function Page() {
           onClick={async () => {
             const imageData = await damageCanvasIns?.current?.toImage?.();
             console.log("imageData: ", imageData);
-            setImageData(imageData);
+            if (imageData) {
+              setImageData(imageData);
+            }
           }}
         >
           获取图像

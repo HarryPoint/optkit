@@ -72,13 +72,13 @@ const metaData = originMetaData?.map((item) => ({
   coordinates: item.coordinates?.map((l) => l + 8),
 }));
 
-type PinItem<T = any> = {
+export type PinItem<T = any> = {
   position: { x: number; y: number };
   style?: Partial<Omit<CircleStyleProps, "id">>;
   metaData: T;
 };
 
-type CarDamageCanvasProps<T> = {
+export type CarDamageCanvasProps<T = any> = {
   pins: PinItem<T>[];
   onAdd: (position: { x: number; y: number }, type: string) => void;
   onClickPin: (data: PinItem<T>) => void;
@@ -146,9 +146,10 @@ const createArea = (path: string, type: string) => {
   return area;
 };
 
-export const CarDamageCanvas = React.forwardRef(function CarDamageCanvasInner<
-  T = any
->(props: CarDamageCanvasProps<T>, ref: any) {
+export const CarDamageCanvas = React.forwardRef<
+  { toImage: (quality?: any) => Promise<string> },
+  CarDamageCanvasProps
+>(function CarDamageCanvasInner(props, ref) {
   const { pins = [], onAdd, onClickPin } = props;
   const domRef = useRef();
   const canvasIns = useRef<InstanceType<typeof Canvas>>();
@@ -260,9 +261,6 @@ export const CarDamageCanvas = React.forwardRef(function CarDamageCanvasInner<
 
   useImperativeHandle(ref, () => {
     return {
-      toCanvas: async () => {
-        return exporterIns.current?.toCanvas();
-      },
       toImage: async (quality?: any) => {
         const baseCanvas = await exporterIns.current?.toCanvas();
         console.log("baseCanvas: ", baseCanvas);
