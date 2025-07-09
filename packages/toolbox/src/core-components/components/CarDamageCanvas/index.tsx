@@ -87,6 +87,7 @@ const createPin = (data: PinItem) => {
       fill: "black",
       stroke: "blue",
       transformOrigin: "center center",
+      opacity: 0.3,
       ...style,
     },
   });
@@ -147,7 +148,7 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
   useEffect(() => {
     function onClickPinInner(ev: any) {
       ev.stopPropagation();
-      const originData = ev.target.getAttribute("data-origin");
+      const originData = ev.target.parentNode.getAttribute("data-origin");
       onClickPin?.(originData);
     }
     if (ready) {
