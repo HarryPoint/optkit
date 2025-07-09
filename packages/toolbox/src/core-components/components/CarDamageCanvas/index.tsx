@@ -1,6 +1,13 @@
-import { Canvas, CanvasEvent, Circle, CircleStyleProps, Group } from "@antv/g";
+import {
+  Canvas,
+  CanvasEvent,
+  Circle,
+  CircleStyleProps,
+  Group,
+  Path,
+} from "@antv/g";
 import { Renderer } from "@antv/g-canvas";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const metaData = [
   { type: "front_left_bumper", coordinates: [98, 24] },
@@ -52,7 +59,8 @@ const metaData = [
 ];
 
 type PinItem<T = any> = {
-  style: Partial<Omit<CircleStyleProps, "id">>;
+  position: { x: number; y: number };
+  style?: Partial<Omit<CircleStyleProps, "id">>;
   metaData: T;
 };
 
@@ -60,6 +68,46 @@ type CarDamageCanvasProps<T> = {
   pins: PinItem<T>[];
   onAdd: (position: { x: number; y: number }) => void;
   onClickPin: (data: PinItem<T>) => void;
+};
+
+const createPin = (data: PinItem) => {
+  const style = data?.style ?? {};
+  const { x, y } = data?.position;
+  const pin = new Circle({
+    id: `pin-${x}-${y}`,
+    style: {
+      r: 1,
+      fill: "black",
+      cursor: "pointer",
+    },
+  });
+  const icon = new Path({
+    style: {
+      d: "M11.8284 1.92871C12.2188 1.53825 12.8519 1.53838 13.2424 1.92871L16.0715 4.75684C16.259 4.9443 16.3644 5.19876 16.3645 5.46387C16.3645 5.72894 16.2589 5.98339 16.0715 6.1709L13.2424 9L16.0706 11.8281C16.2581 12.0156 16.3635 12.27 16.3635 12.5352C16.3635 12.8004 16.2581 13.0547 16.0706 13.2422L13.2424 16.0703C12.8519 16.4608 12.2189 16.4608 11.8284 16.0703L9.00024 13.2422L6.17212 16.0703C5.78159 16.4608 5.14858 16.4608 4.75806 16.0703L1.92896 13.2422C1.74154 13.0547 1.63599 12.8003 1.63599 12.5352C1.63601 12.27 1.74151 12.0156 1.92896 11.8281L4.75708 8.99902L1.92896 6.1709C1.53858 5.78036 1.53848 5.14731 1.92896 4.75684L4.75708 1.92871C4.94455 1.74125 5.199 1.63582 5.46411 1.63574C5.72926 1.63574 5.98362 1.74127 6.17114 1.92871L8.99927 4.75684L11.8284 1.92871Z",
+      fill: "black",
+      stroke: "blue",
+      transformOrigin: "center center",
+      ...style,
+    },
+  });
+  icon.translateLocal(-9, -9);
+  icon.addEventListener("mouseenter", () => {
+    icon.style.fill = "red";
+  });
+  icon.addEventListener("mouseleave", () => {
+    icon.style.fill = "black";
+  });
+  pin.appendChild(icon);
+  pin.setPosition(x, y);
+  // @ts-ignore
+  pin.setAttribute("data-origin", data);
+  pin.addEventListener("mouseenter", () => {
+    pin.style.fill = "red";
+  });
+  pin.addEventListener("mouseleave", () => {
+    pin.style.fill = "black";
+  });
+  return pin;
 };
 
 export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
@@ -70,12 +118,9 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
   const [ready, setReady] = useState(false);
   const defaultPins = useMemo<PinItem[]>(() => {
     return metaData?.map((item) => {
-      const [cx, cy] = item.coordinates;
+      const [x, y] = item.coordinates;
       return {
-        style: {
-          cx: cx + 8,
-          cy: cy + 8,
-        },
+        position: { x: x + 8, y: y + 8 },
         metaData: {
           type: item.type,
         },
@@ -86,29 +131,6 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
   const combinePins = useMemo(() => {
     return [...defaultPins, ...pins];
   }, [defaultPins, pins]);
-
-  const createPin = useCallback((data: PinItem) => {
-    const style = data?.style ?? {};
-    const { cx, cy } = style;
-    const pin = new Circle({
-      id: `pin-${cx}-${cy}`,
-      style: {
-        r: 5,
-        fill: "black",
-        cursor: "pointer",
-        ...style,
-      },
-    });
-    // @ts-ignore
-    pin.setAttribute("data-origin", data);
-    pin.addEventListener("mouseenter", () => {
-      pin.style.fill = "red";
-    });
-    pin.addEventListener("mouseleave", () => {
-      pin.style.fill = "black";
-    });
-    return pin;
-  }, []);
 
   useEffect(() => {
     if (ready) {

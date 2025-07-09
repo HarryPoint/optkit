@@ -9,10 +9,7 @@ export default function Page() {
 
   const [pins, setPins] = useState([
     {
-      style: {
-        cx: 100,
-        cy: 200,
-      },
+      position: { x: 100, y: 200 },
       metaData: {},
     },
   ]);
@@ -25,9 +22,9 @@ export default function Page() {
           return [
             ...prev,
             {
-              style: {
-                cx: ev.x,
-                cy: ev.y,
+              position: {
+                x: ev.x,
+                y: ev.y,
               },
               metaData: {},
             },
@@ -39,8 +36,8 @@ export default function Page() {
           title: data?.metaData?.type ?? "sdfdsf",
           content: (
             <div>
-              <div>x: {data?.style?.cx}</div>
-              <div>y: {data?.style?.cy}</div>
+              <div>x: {data?.position?.x}</div>
+              <div>y: {data?.position?.y}</div>
             </div>
           ),
         });
