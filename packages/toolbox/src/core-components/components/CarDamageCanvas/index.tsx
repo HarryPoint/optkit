@@ -1,11 +1,4 @@
-import {
-  Canvas,
-  CanvasEvent,
-  Circle,
-  CircleStyleProps,
-  Group,
-  Image,
-} from "@antv/g";
+import { Canvas, CanvasEvent, Circle, CircleStyleProps, Group } from "@antv/g";
 import { Renderer } from "@antv/g-canvas";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -120,18 +113,13 @@ export function CarDamageCanvas<T = any>(props: CarDamageCanvasProps<T>) {
   useEffect(() => {
     if (ready) {
       combinePins.forEach((item) => {
-        const { cx, cy } = item.style;
-        const pinIns = canvasIns.current.document.getElementById(
-          `pin-${cx}-${cy}`
-        );
-        if (pinIns) {
-          pinIns.setAttribute("style", item.style);
-        } else {
-          const pinIns = createPin(item);
-          pinGroupIns.current.appendChild(pinIns);
-        }
+        const pinIns = createPin(item);
+        pinGroupIns.current.appendChild(pinIns);
       });
     }
+    return () => {
+      pinGroupIns.current?.removeChildren?.();
+    };
   }, [combinePins, ready]);
 
   useEffect(() => {
