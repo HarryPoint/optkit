@@ -9,15 +9,21 @@ export default function Page() {
   const damageCanvasIns = useRef<typeof CarDamageCanvas>();
   const [imageData, setImageData] = useState();
 
-  const [pins, setPins] = useState([
-    {
-      position: { x: 100, y: 200 },
-      metaData: {},
-    },
-  ]);
+  const [pins, setPins] = useState([]);
 
   return (
     <div>
+      <div>
+        <Button
+          onClick={async () => {
+            const imageData = await damageCanvasIns?.current?.toImage?.();
+            console.log("imageData: ", imageData);
+            setImageData(imageData);
+          }}
+        >
+          获取图像
+        </Button>
+      </div>
       <CarDamageCanvas
         ref={damageCanvasIns}
         pins={pins}
@@ -49,15 +55,7 @@ export default function Page() {
           });
         }}
       />
-      <Button
-        onClick={async () => {
-          const imageData = await damageCanvasIns?.current?.toImage?.();
-          console.log("imageData: ", imageData);
-          setImageData(imageData);
-        }}
-      >
-        获取图像
-      </Button>
+
       {imageData && <img src={imageData} alt="demo" />}
     </div>
   );
